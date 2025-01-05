@@ -1,16 +1,22 @@
+// Board.js
 import React, { useState } from 'react';
-import { Container, Box, Grid, Card, CardContent, Typography, Button } from '@mui/material';
+import { Container, Box, Grid, Typography, Button } from '@mui/material';
 import Header from './Header';
+import{ TaskCard } from './TaskCard';  // Import TaskCard
 
 const Board = () => {
   const [tasks, setTasks] = useState({
     backlog: [
+      // Initial tasks if any
     ],
     todo: [
+      // Initial tasks if any
     ],
     inProgress: [
+      // Initial tasks if any
     ],
     done: [
+      // Initial tasks if any
     ]
   });
 
@@ -53,12 +59,7 @@ const Board = () => {
             >
               <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px' }}>Backlog</Typography>
               {tasks.backlog.map((task) => (
-                <Card key={task.id} sx={{ marginBottom: '15px', borderRadius: '8px' }}>
-                  <CardContent>
-                    <Typography variant="h6">{task.title}</Typography>
-                    <Typography variant="body2" color="textSecondary">{task.description}</Typography>
-                  </CardContent>
-                </Card>
+                <TaskCard key={task.id} task={task} />  // Use TaskCard here
               ))}
               <Button 
                 variant="contained" 
@@ -83,12 +84,7 @@ const Board = () => {
             >
               <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px' }}>To Do</Typography>
               {tasks.todo.map((task) => (
-                <Card key={task.id} sx={{ marginBottom: '15px', borderRadius: '8px' }}>
-                  <CardContent>
-                    <Typography variant="h6">{task.title}</Typography>
-                    <Typography variant="body2" color="textSecondary">{task.description}</Typography>
-                  </CardContent>
-                </Card>
+                <TaskCard key={task.id} task={task} />  // Use TaskCard here
               ))}
               <Button 
                 variant="contained" 
@@ -113,12 +109,7 @@ const Board = () => {
             >
               <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px' }}>In Progress</Typography>
               {tasks.inProgress.map((task) => (
-                <Card key={task.id} sx={{ marginBottom: '15px', borderRadius: '8px' }}>
-                  <CardContent>
-                    <Typography variant="h6">{task.title}</Typography>
-                    <Typography variant="body2" color="textSecondary">{task.description}</Typography>
-                  </CardContent>
-                </Card>
+                <TaskCard key={task.id} task={task} />  
               ))}
               <Button 
                 variant="contained" 
@@ -143,12 +134,7 @@ const Board = () => {
             >
               <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px' }}>Done</Typography>
               {tasks.done.map((task) => (
-                <Card key={task.id} sx={{ marginBottom: '15px', borderRadius: '8px' }}>
-                  <CardContent>
-                    <Typography variant="h6">{task.title}</Typography>
-                    <Typography variant="body2" color="textSecondary">{task.description}</Typography>
-                  </CardContent>
-                </Card>
+                <TaskCard key={task.id} task={task} />  // Use TaskCard here
               ))}
               <Button 
                 variant="contained" 
