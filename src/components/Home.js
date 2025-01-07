@@ -3,13 +3,12 @@ import { Container, Typography, Box, Button } from '@mui/material';
 import Header from './Header';
 import homePicture from './homePicture.png';
 import leaf from './leaf.svg';
-import { useNavigate } from 'react-router-dom'; // Używamy useNavigate zamiast useHistory
-
+import { useNavigate } from 'react-router-dom'; 
 const Home = () => {
-  const navigate = useNavigate(); // Inicjujemy hook do nawigacji
+  const navigate = useNavigate(); 
 
   const handleGetStarted = () => {
-    navigate('/users-boards'); // Po kliknięciu przenosimy użytkownika do UsersBoards
+    navigate('/users-boards'); 
   };
 
   return (

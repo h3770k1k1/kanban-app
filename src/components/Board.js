@@ -1,35 +1,35 @@
-// Board.js
 import React, { useState } from 'react';
-import { Container, Box, Grid, Typography, Button } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import Header from './Header';
-import{ TaskCard } from './TaskCard';  // Import TaskCard
+import TaskColumn from './TaskColumn'; // Import TaskColumn
+import theme from '../styles/theme';
 
 const Board = () => {
   const [tasks, setTasks] = useState({
-    backlog: [
-      // Initial tasks if any
-    ],
-    todo: [
-      // Initial tasks if any
-    ],
-    inProgress: [
-      // Initial tasks if any
-    ],
-    done: [
-      // Initial tasks if any
-    ]
+    backlog: [],
+    todo: [],
+    inProgress: [],
+    done: []
   });
 
   const handleAddTask = (column) => {
     const newTask = {
       id: Math.random(),
-      title: `New Task ${Math.floor(Math.random() * 100)}`,
+      title: `New Task`,
       description: 'Description for new task'
     };
 
     setTasks((prevState) => {
-      const updatedTasks = Object.assign({}, prevState);
+      const updatedTasks = { ...prevState };
       updatedTasks[column] = updatedTasks[column].concat(newTask);
+      return updatedTasks;
+    });
+  };
+
+  const handleCloseTask = (column, taskId) => {
+    setTasks((prevState) => {
+      const updatedTasks = { ...prevState };
+      updatedTasks[column] = updatedTasks[column].filter(task => task.id !== taskId);
       return updatedTasks;
     });
   };
@@ -44,109 +44,44 @@ const Board = () => {
       }}
     >
       <Header />
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-        <Grid container spacing={3}>
-          {/* Backlog Column */}
-          <Grid item xs={3}>
-            <Box
-              sx={{
-                backgroundColor: '#fff3e0',
-                borderRadius: '8px',
-                padding: '10px',
-                height: '80vh',
-                overflowY: 'auto'
-              }}
-            >
-              <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px' }}>Backlog</Typography>
-              {tasks.backlog.map((task) => (
-                <TaskCard key={task.id} task={task} />  // Use TaskCard here
-              ))}
-              <Button 
-                variant="contained" 
-                sx={{ marginTop: '10px', width: '100%' }}
-                onClick={() => handleAddTask('backlog')}
-              >
-                Add Task
-              </Button>
-            </Box>
-          </Grid>
-
-          {/* To Do Column */}
-          <Grid item xs={3}>
-            <Box
-              sx={{
-                backgroundColor: '#f4f6f8',
-                borderRadius: '8px',
-                padding: '10px',
-                height: '80vh',
-                overflowY: 'auto'
-              }}
-            >
-              <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px' }}>To Do</Typography>
-              {tasks.todo.map((task) => (
-                <TaskCard key={task.id} task={task} />  // Use TaskCard here
-              ))}
-              <Button 
-                variant="contained" 
-                sx={{ marginTop: '10px', width: '100%' }}
-                onClick={() => handleAddTask('todo')}
-              >
-                Add Task
-              </Button>
-            </Box>
-          </Grid>
-
-          {/* In Progress Column */}
-          <Grid item xs={3}>
-            <Box
-              sx={{
-                backgroundColor: '#e3f2fd',
-                borderRadius: '8px',
-                padding: '10px',
-                height: '80vh',
-                overflowY: 'auto'
-              }}
-            >
-              <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px' }}>In Progress</Typography>
-              {tasks.inProgress.map((task) => (
-                <TaskCard key={task.id} task={task} />  
-              ))}
-              <Button 
-                variant="contained" 
-                sx={{ marginTop: '10px', width: '100%' }}
-                onClick={() => handleAddTask('inProgress')}
-              >
-                Add Task
-              </Button>
-            </Box>
-          </Grid>
-
-          {/* Done Column */}
-          <Grid item xs={3}>
-            <Box
-              sx={{
-                backgroundColor: '#c8e6c9',
-                borderRadius: '8px',
-                padding: '10px',
-                height: '80vh',
-                overflowY: 'auto'
-              }}
-            >
-              <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '20px' }}>Done</Typography>
-              {tasks.done.map((task) => (
-                <TaskCard key={task.id} task={task} />  // Use TaskCard here
-              ))}
-              <Button 
-                variant="contained" 
-                sx={{ marginTop: '10px', width: '100%' }}
-                onClick={() => handleAddTask('done')}
-              >
-                Add Task
-              </Button>
-            </Box>
-          </Grid>
+      <Grid container spacing={3} sx={{ marginTop: '20px' }}>
+        <Grid item xs={3}>
+          <TaskColumn 
+            title="Backlog" 
+            tasks={tasks.backlog} 
+            onAddTask={() => handleAddTask('backlog')} 
+            onCloseTask={(taskId) => handleCloseTask('backlog', taskId)} 
+            bgColor={theme.teal} 
+          />
         </Grid>
-      </Box>
+        <Grid item xs={3}>
+          <TaskColumn 
+            title="To Do" 
+            tasks={tasks.todo} 
+            onAddTask={() => handleAddTask('todo')} 
+            onCloseTask={(taskId) => handleCloseTask('todo', taskId)} 
+            bgColor={theme.sand} 
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TaskColumn 
+            title="In Progress" 
+            tasks={tasks.inProgress} 
+            onAddTask={() => handleAddTask('inProgress')} 
+            onCloseTask={(taskId) => handleCloseTask('inProgress', taskId)} 
+            bgColor={theme.lightTeal} 
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TaskColumn 
+            title="Done" 
+            tasks={tasks.done} 
+            onAddTask={() => handleAddTask('done')} 
+            onCloseTask={(taskId) => handleCloseTask('done', taskId)} 
+            bgColor={theme.darkSlate} 
+          />
+        </Grid>
+      </Grid>
     </Container>
   );
 };
