@@ -1,13 +1,15 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import {Container, Box, Typography } from '@mui/material';
 import logo from './logo.svg'
 
 const Header = () => {
   return (
+<Container sx={{display:'flex', justifyContent:'center'}}>
     <Box
       sx={{
         top: 0,
-        height: '12%',
+        height: '12vh',
+        width:'75%',
         display: 'flex',
         justifyContent: 'flexStart',
         alignItems: 'center',
@@ -16,7 +18,7 @@ const Header = () => {
       }}
     >
      <Typography> <img src={logo} alt="Logo" /></Typography>
-    </Box>
+    </Box></Container>
   );
 };
 

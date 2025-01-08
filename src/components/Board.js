@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Container, Grid } from '@mui/material';
 import TaskColumn from './TaskColumn';  
-import Header from './Header';         
 import theme from '../styles/theme';    
 
 const Board = () => {
   const [tasks, setTasks] = useState({
     backlog: [
-      
     ],
     todo: [],
     inProgress: [],
@@ -53,6 +51,7 @@ const Board = () => {
           });
         }
       };
+      
 
   return (
     <Container
@@ -63,7 +62,6 @@ const Board = () => {
         padding: '20px',
       }}
     >
-      <Header />
       <Grid container spacing={3} sx={{ marginTop: '20px' }}>
         <Grid item xs={3}>
           <TaskColumn

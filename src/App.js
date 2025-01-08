@@ -12,6 +12,7 @@ function App() {
     <Router>
       {/* Wrapping the entire app in DndProvider to provide drag-and-drop context */}
       <DndProvider backend={HTML5Backend}> 
+        <Header />
         <Routes> 
           <Route path="/" element={<Home />} />
           <Route path="/users-boards" element={<UsersBoards />} />

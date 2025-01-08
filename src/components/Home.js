@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container, Typography, Box, Button } from '@mui/material';
-import Header from './Header';
 import homePicture from './homePicture.png';
 import leaf from './leaf.svg';
 import { useNavigate } from 'react-router-dom'; 
+
 const Home = () => {
   const navigate = useNavigate(); 
 
@@ -14,7 +14,7 @@ const Home = () => {
   return (
     <Container
       sx={{
-        height: '100vh',
+        height: '90vh',
         overflow: 'hidden',
         padding: 0,
         position: 'relative',
@@ -25,7 +25,7 @@ const Home = () => {
         alt="Leaf"
         style={{
           position: 'absolute',
-          top: '25vh',
+          top: '15vh',
           left: '40vw',
           objectFit: 'cover',
           zIndex: -1,
@@ -33,12 +33,11 @@ const Home = () => {
       />
       <Container
         sx={{
-          width: '70%',
+          width: '90%',
           height: '100%',
           position: 'relative',
         }}
       >
-        <Header />
         <Container
           maxWidth="md"
           sx={{
@@ -86,7 +85,7 @@ const Home = () => {
           </Box>
           <Box
             sx={{
-              width: '75%',
+              width: '70%',
               color: '#fff',
               marginLeft: '30%',
               display: 'flex',

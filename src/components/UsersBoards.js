@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from './Header';
 import { Container, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom'; 
 
@@ -13,12 +12,11 @@ const UsersBoards = () => {
   return (
     <Container
       sx={{
-        width: '70%',
+        width: '80%',
         height: '100%',
         position: 'relative',
       }}
     >
-      <Header />
       <Box
         sx={{
           flex: 1,
