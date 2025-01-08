@@ -1,13 +1,13 @@
 import React from 'react';
 import Header from './Header';
 import { Container, Box, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; // Używamy useNavigate zamiast useHistory
+import { useNavigate } from 'react-router-dom'; 
 
 const UsersBoards = () => {
-  const navigate = useNavigate(); // Inicjujemy hook do nawigacji
+  const navigate = useNavigate(); 
 
   const handleCreateBoard = () => {
-    navigate('/board'); // Po kliknięciu przenosimy użytkownika na stronę Board
+    navigate('/board'); 
   };
 
   return (
@@ -37,7 +37,7 @@ const UsersBoards = () => {
             fontSize: '1.2rem',
             textTransform: 'none',
           }}
-          onClick={handleCreateBoard} // Wywołujemy funkcję nawigacyjną
+          onClick={handleCreateBoard} 
         >
           Create new board
         </Button>

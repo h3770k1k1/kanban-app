@@ -1,13 +1,23 @@
 import React from 'react';
+import { useDrop } from 'react-dnd';
 import { Box, Typography, Button } from '@mui/material';
-import { TaskCard } from './TaskCard'; 
-import theme from '../styles/theme';
+import TaskCard from './TaskCard';
+import theme from '../styles/theme';    
 
-const TaskColumn = ({ title, tasks, onAddTask, bgColor, onCloseTask }) => {
+const TaskColumn = ({ title, tasks, onAddTask, bgColor, onCloseTask, onDropTask, columnKey }) => {
+  const [{ isOver }, dropRef] = useDrop({
+    accept: 'TASK',
+    drop: (item) => onDropTask(item.id, columnKey),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
+
   return (
     <Box
+      ref={dropRef}
       sx={{
-        backgroundColor: bgColor,
+        backgroundColor: isOver ? 'lightblue' : bgColor,
         borderRadius: '8px',
         padding: '10px',
         height: '75vh',
@@ -18,15 +28,14 @@ const TaskColumn = ({ title, tasks, onAddTask, bgColor, onCloseTask }) => {
         {title}
       </Typography>
       {tasks.map((task) => (
-        <TaskCard 
-          key={task.id} 
-          task={task} 
-          onClose={onCloseTask} // Przekazujemy funkcję zamykania
-        />
+        <TaskCard key={task.id} task={task} onClose={onCloseTask} />
       ))}
-      <Button 
-        variant="contained" 
-        sx={{ marginTop: '10px', width: '100%', backgroundColor: theme.darkGreen }}
+      <Button
+        variant="contained"
+        sx={{ marginTop: '10px', width: '100%',
+          backgroundColor:theme.darkGreen,
+
+         }}
         onClick={onAddTask}
       >
         Add Task
