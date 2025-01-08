@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, Button,Box} from '@mui/material';
 import TaskColumn from './TaskColumn';
 import theme from '../styles/theme';
+import CheckIcon from '@mui/icons-material/Check';
 
 const Board = () => {
   const [tasks, setTasks] = useState({
@@ -91,7 +92,14 @@ const Board = () => {
           </Grid>
         ))}
       </Grid>
-    </Container>
+      <Box sx={{width:'100%', display:'flex', justifyContent:'flex-end',}}>
+      <Button sx={{ backgroundColor: theme.darkGreen, marginTop:'3vh',
+    color: 'white',
+    fontSize: '20px',       
+    fontWeight: 'medium',     
+    padding: '12px 24px',   
+    borderRadius: '8px', justifyContent: 'space-between'}}><CheckIcon  sx={{ marginRight: '0.5rem' }}/>SAVE BOARD</Button>
+    </Box></Container>
   );
 };
 
