@@ -1,9 +1,9 @@
 const theme = {
     darkGreen: '#1B4F50',
-    teal: '#99C0BF',
-    sand: '#F1E5D7',
-    lightTeal: '#A7D0D7',
-    darkSlate: '#798686',
+    backlog: '#99C0BF',
+    todo: '#F1E5D7',
+    inProgress: '#A7D0D7',
+    done: '#798686',
   };
   
   export default theme;

@@ -2,9 +2,10 @@ import React from 'react';
 import { useDrag } from 'react-dnd';
 import { Card, CardContent, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import EditIcon from '@mui/icons-material/Edit';
+import TextField from '@mui/material/TextField';
 
-const TaskCard = ({ task, onClose }) => {
+const TaskCard = ({ task, onClose, onDescriptionChange }) => {
+
   const [{ isDragging }, dragRef] = useDrag({
     type: 'TASK',
     item: { id: task.id },
@@ -24,7 +25,7 @@ const TaskCard = ({ task, onClose }) => {
         cursor: 'move',
       }}
     >
-      <IconButton 
+      <IconButton
         onClick={() => onClose(task.id)}
         sx={{
           position: 'absolute',
@@ -32,39 +33,20 @@ const TaskCard = ({ task, onClose }) => {
           right: '2px',
         }}
       >
-       <CloseIcon />
+        <CloseIcon />
       </IconButton>
-
       <CardContent>
-        <Typography variant="h6" sx={{ display: 'flex', alignItems: 'baseline',marginTop:'1rem'}}>
-          {task.title}
-          <IconButton
-            sx={{
-              color: 'inherit', 
-            }}
-            size="small"
-          >
-            <EditIcon fontSize="small" />
-          </IconButton>
-        </Typography>
-        <Typography
-          variant="body2"
-          color="textSecondary"
-        sx={{ display: 'flex', alignItems: 'baseline',}}
-        >
-          {task.description}
-          <IconButton
-            sx={{
-              color: 'inherit', 
-            }}
-           
-          >
-            <EditIcon sx={{fontSize: '1rem'}} />
-          </IconButton>
-        </Typography>
+        <TextField
+          variant="standard"
+          label="Task description"
+          multiline
+          maxRows={4}
+          sx={{ marginTop: '0.5rem' }}
+          value={task.description}
+          onChange={(e) => onDescriptionChange(e.target.value)}
+        />
       </CardContent>
     </Card>
   );
 };
-
 export default TaskCard;
