@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Grid, Button,Box} from '@mui/material';
+import { Container, Grid, Button,Box, TextField} from '@mui/material';
 import TaskColumn from './TaskColumn';
 import theme from '../styles/theme';
 import CheckIcon from '@mui/icons-material/Check';
@@ -74,7 +74,14 @@ const Board = () => {
 
   return (
     <Container sx={{ width: '70%', height: '100%', position: 'relative', padding: '20px' }}>
-      <Grid container spacing={3} sx={{ marginTop: '20px' }}>
+     <Box sx={{width:'100%', display:'flex', justifyContent:'flex-start',marginTop:'0.5vh'}}> <TextField
+          id="standard-helperText"
+          label=""
+          defaultValue="My Board"
+          helperText="Name your board"
+          variant="standard"
+        /></Box>
+      <Grid container spacing={3} sx={{ marginTop: '0.5vh' }}>
         {Object.keys(tasks).map((columnKey) => (
           <Grid item xs={3} key={columnKey}>
             <TaskColumn
