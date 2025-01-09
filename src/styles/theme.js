@@ -1,10 +1,15 @@
-const theme = {
-    darkGreen: '#1B4F50',
-    backlog: '#99C0BF',
-    todo: '#F1E5D7',
-    inProgress: '#A7D0D7',
-    done: '#798686',
-    link:'#669E9C',
-  };
-  
-  export default theme;
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    darkGreen: { main: '#1B4F50' },
+    backlog: { main: '#99C0BF' },
+    todo: { main: '#F1E5D7' },
+    inProgress: { main: '#A7D0D7' },
+    done: { main: '#798686' },
+    link: { main: '#669E9C' },
+  },
+});
+
+export default theme;
+export { ThemeProvider };

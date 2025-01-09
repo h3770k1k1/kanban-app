@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, useTheme} from '@mui/material';
 import TaskCard from './TaskCard';
-import theme from '../styles/theme';
 
 const TaskColumn = ({ title, tasks, onAddTask, bgColor, onCloseTask, onDropTask, columnKey, onTaskDescriptionChange }) => {
+  const theme = useTheme();
   const [{ isOver }, dropRef] = useDrop({
     accept: 'TASK',
     drop: (item) => onDropTask(item.id, columnKey),
@@ -17,7 +17,7 @@ const TaskColumn = ({ title, tasks, onAddTask, bgColor, onCloseTask, onDropTask,
     <Box
       ref={dropRef}
       sx={{
-        backgroundColor: isOver ? 'lightblue' : bgColor,
+        backgroundColor: isOver ? theme.palette.link.main : bgColor,
         borderRadius: '8px',
         padding: '10px',
         height: '65vh',
@@ -43,7 +43,7 @@ const TaskColumn = ({ title, tasks, onAddTask, bgColor, onCloseTask, onDropTask,
         sx={{
           marginTop: '10px',
           width: '100%',
-          backgroundColor: theme.darkGreen,
+          backgroundColor: theme.palette.darkGreen.main,
         }}
         onClick={onAddTask}
       >

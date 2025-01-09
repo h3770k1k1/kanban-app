@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, useTheme} from '@mui/material';
 import TaskColumn from './TaskColumn';
-import theme from '../styles/theme';
 
 const Board = () => {
+      const theme = useTheme();
+  
   const [tasks, setTasks] = useState({
     backlog: [],
     todo: [],
@@ -81,7 +82,7 @@ const Board = () => {
               tasks={tasks[columnKey]}
               onAddTask={() => handleAddTask(columnKey)}
               onCloseTask={(taskId) => handleCloseTask(columnKey, taskId)}
-              bgColor={theme[columnKey]}
+              bgColor={theme.palette[columnKey]?.main || '#FFFFFF'}
               onDropTask={handleDropTask}
               columnKey={columnKey}
               onTaskDescriptionChange={(taskId, newDescription) =>

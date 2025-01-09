@@ -1,10 +1,9 @@
 import React from 'react';
-import { Box, Button, Container, TextField, Typography, CssBaseline, Grid, Link } from '@mui/material';
-import theme from '../styles/theme';
+import { Box, Button, Container, TextField, Typography, Grid, Link, useTheme } from '@mui/material';
 
 
 const SignIn = () => {
-   
+    const theme = useTheme();
     return (
         <Container component="main" maxWidth="xs">
         <Box
@@ -27,7 +26,7 @@ const SignIn = () => {
                     label="Email Address"
                     name="email"
                     autoComplete="email"
-                    color='theme.link'
+                    color={theme.palette.link.main}
                     autoFocus
                 />
                 <TextField
@@ -39,24 +38,24 @@ const SignIn = () => {
                     type="password"
                     id="password"
                     autoComplete="current-password"
-                    color='theme.link'
+                    color={theme.palette.link.main}
                 />
                 <Button
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 3, mb: 2, backgroundColor:theme.darkGreen}}
+                    sx={{ mt: 3, mb: 2, backgroundColor:theme.palette.darkGreen.main}}
                 >
                     Sign In
                 </Button>
                 <Grid container>
                     <Grid item xs>
-                        <Link sx={{color:theme.link}} href="#" variant="body2">
+                        <Link color={theme.palette.link.main} href="#" variant="body2">
                             Forgot password?
                         </Link>
                     </Grid>
                     <Grid item>
-                        <Link sx={{color:theme.link}}href="#" variant="body2">
+                        <Link color={theme.palette.link.main} href="/sign-up" variant="body2">
                             {"Don't have an account? Sign Up"}
                         </Link>
                     </Grid>

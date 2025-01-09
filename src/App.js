@@ -7,18 +7,23 @@ import UsersBoards from './components/UsersBoards';
 import Board from './components/Board';  
 import Header from './components/Header';
 import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import theme, { ThemeProvider } from './styles/theme';
 
 function App() {
   return (
     <Router>
       <DndProvider backend={HTML5Backend}> 
+      <ThemeProvider theme={theme}>
         <Header />
         <Routes> 
           <Route path="/" element={<Home />} />
           <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
           <Route path="/users-boards" element={<UsersBoards />} />
           <Route path="/board" element={<Board />} />
         </Routes>
+        </ThemeProvider>
       </DndProvider>
     </Router>
   );
