@@ -8,6 +8,7 @@ import Board from './components/Board';
 import Header from './components/Header';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
+import ForgotPassword from './components/ForgotPassword';
 import theme, { ThemeProvider } from './styles/theme';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/users-boards" element={<UsersBoards />} />
           <Route path="/board" element={<Board />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
         </ThemeProvider>
       </DndProvider>

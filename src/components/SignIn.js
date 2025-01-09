@@ -50,7 +50,7 @@ const SignIn = () => {
                 </Button>
                 <Grid container>
                     <Grid item xs>
-                        <Link color={theme.palette.link.main} href="#" variant="body2">
+                        <Link color={theme.palette.link.main} href="/forgot-password" variant="body2">
                             Forgot password?
                         </Link>
                     </Grid>
