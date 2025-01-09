@@ -8,7 +8,7 @@ const Home = () => {
   const navigate = useNavigate(); 
 
   const handleGetStarted = () => {
-    navigate('/users-boards'); 
+    navigate('/sign-in'); 
   };
 
   return (
@@ -78,7 +78,8 @@ const Home = () => {
                 height: '55px',
                 borderRadius: '20px',
               }}
-              onClick={handleGetStarted} // Wywołujemy funkcję nawigacyjną
+              onClick={handleGetStarted} 
+            
             >
               GET STARTED
             </Button>

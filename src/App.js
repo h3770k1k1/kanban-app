@@ -6,15 +6,16 @@ import Home from './components/Home';
 import UsersBoards from './components/UsersBoards';  
 import Board from './components/Board';  
 import Header from './components/Header';
+import SignIn from './components/SignIn';
 
 function App() {
   return (
     <Router>
-      {/* Wrapping the entire app in DndProvider to provide drag-and-drop context */}
       <DndProvider backend={HTML5Backend}> 
         <Header />
         <Routes> 
           <Route path="/" element={<Home />} />
+          <Route path="/sign-in" element={<SignIn />} />
           <Route path="/users-boards" element={<UsersBoards />} />
           <Route path="/board" element={<Board />} />
         </Routes>

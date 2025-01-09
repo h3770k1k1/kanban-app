@@ -4,6 +4,7 @@ const theme = {
     todo: '#F1E5D7',
     inProgress: '#A7D0D7',
     done: '#798686',
+    link:'#669E9C',
   };
   
   export default theme;
