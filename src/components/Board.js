@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Grid, useTheme} from '@mui/material';
-import TaskColumn from './TaskColumn';
+import TaskColumnWrapper from './TaskColumnWrapper';
 
 const Board = () => {
-      const theme = useTheme();
   
   const [tasks, setTasks] = useState({
     backlog: [],
@@ -76,30 +75,18 @@ const Board = () => {
     <Container sx={{ width: '70%', height: '100%', position: 'relative', padding: '20px' }}>
       <Grid container spacing={3} sx={{ marginTop: '20px' }}>
         {Object.keys(tasks).map((columnKey) => (
-          <Grid item xs={3} key={columnKey}>
-           <TaskColumn
-              title={columnKey.charAt(0).toUpperCase() + columnKey.slice(1)}
-              tasks={tasks[columnKey]}
-              onAddTask={() => handleAddTask(columnKey)}
-              onCloseTask={(taskId) => handleCloseTask(columnKey, taskId)}
-              bgColor={
-                theme.palette[
-                  columnKey === 'backlog'
-                    ? 'lightGreen'
-                    : columnKey === 'todo'
-                    ? 'beige'
-                    : columnKey === 'inProgress'
-                    ? 'lightBlue'
-                    : 'grey'
-                ]?.main || '#FFFFFF'
-              }
-              onDropTask={handleDropTask}
-              columnKey={columnKey}
-              onTaskDescriptionChange={(taskId, newDescription) =>
-                handleTaskDescriptionChange(columnKey, taskId, newDescription)
-              }
-            />
-          </Grid>
+          <TaskColumnWrapper
+            key={columnKey}
+            title={columnKey.charAt(0).toUpperCase() + columnKey.slice(1)}
+            tasks={tasks[columnKey]}
+            onAddTask={() => handleAddTask(columnKey)}
+            onCloseTask={(taskId) => handleCloseTask(columnKey, taskId)}
+            onDropTask={handleDropTask}
+            columnKey={columnKey}
+            onTaskDescriptionChange={(taskId, newDescription) =>
+              handleTaskDescriptionChange(columnKey, taskId, newDescription)
+            }
+          />
         ))}
       </Grid>
     </Container>
