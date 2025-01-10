@@ -26,7 +26,7 @@ const ForgotPassword = () => {
                         label="Email Address"
                         name="email"
                         autoComplete="email"
-                        color={theme.palette.link.main}
+                        color={theme.palette.teal.main}
                         autoFocus
                     />
                     <Button

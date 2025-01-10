@@ -25,7 +25,7 @@ const SignUp = () => {
                         label="Email Address"
                         name="email"
                         autoComplete="email"
-                        color={theme.palette.link.main}
+                        color="primary"
                     />
                     <TextField
                         margin="normal"
@@ -36,7 +36,7 @@ const SignUp = () => {
                         type="password"
                         id="password"
                         autoComplete="new-password"
-                        color={theme.palette.link.main}
+                        color="primary"
                     />
                     <TextField
                         margin="normal"
@@ -47,7 +47,7 @@ const SignUp = () => {
                         type="password"
                         id="confirmPassword"
                         autoComplete="new-password"
-                        color={theme.palette.link.main}
+                        color="primary"
                     />
                     <Button
                         type="submit"
@@ -59,7 +59,7 @@ const SignUp = () => {
                     </Button>
                     <Grid container>
                         <Grid item>
-                            <Link color={theme.palette.link.main} href="/sign-in" variant="body2">
+                            <Link href="/sign-in" variant="body2" sx={{ color: theme.palette.teal.main }}>
                                 {"Already have an account? Sign In"}
                             </Link>
                         </Grid>

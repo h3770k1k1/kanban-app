@@ -77,12 +77,22 @@ const Board = () => {
       <Grid container spacing={3} sx={{ marginTop: '20px' }}>
         {Object.keys(tasks).map((columnKey) => (
           <Grid item xs={3} key={columnKey}>
-            <TaskColumn
+           <TaskColumn
               title={columnKey.charAt(0).toUpperCase() + columnKey.slice(1)}
               tasks={tasks[columnKey]}
               onAddTask={() => handleAddTask(columnKey)}
               onCloseTask={(taskId) => handleCloseTask(columnKey, taskId)}
-              bgColor={theme.palette[columnKey]?.main || '#FFFFFF'}
+              bgColor={
+                theme.palette[
+                  columnKey === 'backlog'
+                    ? 'lightGreen'
+                    : columnKey === 'todo'
+                    ? 'beige'
+                    : columnKey === 'inProgress'
+                    ? 'lightBlue'
+                    : 'grey'
+                ]?.main || '#FFFFFF'
+              }
               onDropTask={handleDropTask}
               columnKey={columnKey}
               onTaskDescriptionChange={(taskId, newDescription) =>
