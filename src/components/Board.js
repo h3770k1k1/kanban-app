@@ -3,9 +3,8 @@ import { Container, Grid, useTheme, Button,Box, TextField} from '@mui/material';
 import TaskColumnWrapper from './TaskColumnWrapper';
 import CheckIcon from '@mui/icons-material/Check';
 
-
 const Board = () => {
-  
+   const theme = useTheme();
   const [tasks, setTasks] = useState({
     backlog: [],
     todo: [],
@@ -99,7 +98,7 @@ const Board = () => {
         ))}
       </Grid>
       <Box sx={{width:'100%', display:'flex', justifyContent:'flex-end',}}>
-      <Button sx={{ backgroundColor: theme.darkGreen, marginTop:'3vh',
+      <Button sx={{ backgroundColor: theme.palette.darkGreen.main, marginTop:'3vh',
     color: 'white',
     fontSize: '20px',       
     fontWeight: 'medium',     

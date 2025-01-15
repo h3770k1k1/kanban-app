@@ -18,7 +18,7 @@ const Header = () => {
         borderColor: 'black',
       }}
     >
-     <Typography> <img src={logo} alt="Logo" /></Typography><Button sx={{backgroundColor:'none',color:theme.darkGreen, marginBottom: '1vh',marginRight:'1vh'}}>Sign In</Button>
+     <Typography> <img src={logo} alt="Logo" /></Typography><Button sx={{backgroundColor:'none',color:theme.palette.darkGreen.main, marginBottom: '1vh',marginRight:'1vh'}}>Sign In</Button>
     </Box></Container>
   );
 };
