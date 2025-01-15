@@ -1,0 +1,10 @@
+.board-button {
+    color: #fff;
+    width: 25%;
+    height: 15vh;
+    border-radius: 16px;
+    margin: 5vh 0 5vh 5vh;
+    font-size: 1.2rem;
+    text-transform: none;
+  }
+  
