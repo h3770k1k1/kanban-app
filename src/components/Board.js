@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Container, Grid, useTheme} from '@mui/material';
+import { Container, Grid, useTheme, Button,Box, TextField} from '@mui/material';
 import TaskColumnWrapper from './TaskColumnWrapper';
+import CheckIcon from '@mui/icons-material/Check';
+
 
 const Board = () => {
   
@@ -73,6 +75,13 @@ const Board = () => {
 
   return (
     <Container sx={{ width: '70%', height: '100%', position: 'relative', padding: '20px' }}>
+       <Box sx={{width:'100%', display:'flex', justifyContent:'flex-start',marginTop:'0.5vh'}}> <TextField
+          id="standard-helperText"
+          label=""
+          defaultValue="My Board"
+          helperText="Name your board"
+          variant="standard"
+        /></Box>
       <Grid container spacing={3} sx={{ marginTop: '20px' }}>
         {Object.keys(tasks).map((columnKey) => (
           <TaskColumnWrapper
@@ -89,7 +98,14 @@ const Board = () => {
           />
         ))}
       </Grid>
-    </Container>
+      <Box sx={{width:'100%', display:'flex', justifyContent:'flex-end',}}>
+      <Button sx={{ backgroundColor: theme.darkGreen, marginTop:'3vh',
+    color: 'white',
+    fontSize: '20px',       
+    fontWeight: 'medium',     
+    padding: '12px 24px',   
+    borderRadius: '8px', justifyContent: 'space-between'}}><CheckIcon  sx={{ marginRight: '0.5rem' }}/>SAVE BOARD</Button>
+    </Box></Container>
   );
 };
 

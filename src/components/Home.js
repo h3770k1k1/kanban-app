@@ -25,8 +25,7 @@ const Home = () => {
         alt="Leaf"
         style={{
           position: 'absolute',
-          top: '15vh',
-          left: '40vw',
+          left: '35vw',
           objectFit: 'cover',
           zIndex: -1,
         }}
@@ -94,15 +93,7 @@ const Home = () => {
               marginBottom:'35%',
             }}
           >
-            <img
-              src={homePicture}
-              alt="Home"
-              style={{
-                width: '100%',
-                height: 'auto',
-                objectFit: 'contain',
-              }}
-            />
+            
           </Box>
         </Container>
       </Container>
