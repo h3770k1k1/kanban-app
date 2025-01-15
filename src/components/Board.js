@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Container, Grid } from '@mui/material';
-import TaskColumn from './TaskColumn';
-import theme from '../styles/theme';
+import { Container, Grid, useTheme} from '@mui/material';
+import TaskColumnWrapper from './TaskColumnWrapper';
 
 const Board = () => {
+  
   const [tasks, setTasks] = useState({
     backlog: [],
     todo: [],
@@ -75,20 +75,18 @@ const Board = () => {
     <Container sx={{ width: '70%', height: '100%', position: 'relative', padding: '20px' }}>
       <Grid container spacing={3} sx={{ marginTop: '20px' }}>
         {Object.keys(tasks).map((columnKey) => (
-          <Grid item xs={3} key={columnKey}>
-            <TaskColumn
-              title={columnKey.charAt(0).toUpperCase() + columnKey.slice(1)}
-              tasks={tasks[columnKey]}
-              onAddTask={() => handleAddTask(columnKey)}
-              onCloseTask={(taskId) => handleCloseTask(columnKey, taskId)}
-              bgColor={theme[columnKey]}
-              onDropTask={handleDropTask}
-              columnKey={columnKey}
-              onTaskDescriptionChange={(taskId, newDescription) =>
-                handleTaskDescriptionChange(columnKey, taskId, newDescription)
-              }
-            />
-          </Grid>
+          <TaskColumnWrapper
+            key={columnKey}
+            title={columnKey.charAt(0).toUpperCase() + columnKey.slice(1)}
+            tasks={tasks[columnKey]}
+            onAddTask={() => handleAddTask(columnKey)}
+            onCloseTask={(taskId) => handleCloseTask(columnKey, taskId)}
+            onDropTask={handleDropTask}
+            columnKey={columnKey}
+            onTaskDescriptionChange={(taskId, newDescription) =>
+              handleTaskDescriptionChange(columnKey, taskId, newDescription)
+            }
+          />
         ))}
       </Grid>
     </Container>

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Container, Box, Button } from '@mui/material';
+import { Container, Box, Button,useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom'; 
 
 const UsersBoards = () => {
+  const theme = useTheme();
   const navigate = useNavigate(); 
 
   const handleCreateBoard = () => {
@@ -26,7 +27,7 @@ const UsersBoards = () => {
         <Button
           variant="contained"
           sx={{
-            backgroundColor: '#1B4F50',
+            backgroundColor: theme.palette.darkGreen.main,
             color: '#fff',
             width: '25%',
             height: '15vh',
