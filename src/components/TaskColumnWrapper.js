@@ -12,17 +12,23 @@ const TaskColumnWrapper = ({
   columnKey,
 }) => {
   const theme = useTheme();
+  let bgColor;
 
-  const bgColor =
-    theme.palette[
-      columnKey === 'backlog'
-        ? 'lightGreen'
-        : columnKey === 'todo'
-        ? 'beige'
-        : columnKey === 'inProgress'
-        ? 'lightBlue'
-        : 'grey'
-    ]?.main || '#FFFFFF';
+  switch (columnKey) {
+    case 'backlog':
+      bgColor = theme.palette.lightGreen?.main || '#FFFFFF';
+      break;
+    case 'todo':
+      bgColor = theme.palette.beige?.main || '#FFFFFF';
+      break;
+    case 'inProgress':
+      bgColor = theme.palette.lightBlue?.main || '#FFFFFF';
+      break;
+    default:
+      bgColor = theme.palette.grey?.main || '#FFFFFF';
+      break;
+  }
+  
 
   return (
     <Grid item xs={3}>
