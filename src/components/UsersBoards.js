@@ -1,46 +1,29 @@
 import React from 'react';
-import { Container, Box, Button,useTheme } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; 
+import { Container, Box, useTheme} from '@mui/material';
+import NewBoardButton from './NewBoardButton';
+// import BoardButton from './BoardButton';
 
 const UsersBoards = () => {
   const theme = useTheme();
-  const navigate = useNavigate(); 
-
-  const handleCreateBoard = () => {
-    navigate('/board'); 
-  };
+  const buttonColors = [theme.palette.darkGreen.main,theme.palette.teal.main ] 
+  const buttonTexts = ['Create new board','Board Name']
 
   return (
     <Container
       sx={{
         width: '80%',
         height: '100%',
-        position: 'relative',
+        display:'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
-      <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
-        }}
-      >
-        <Button
-          variant="contained"
-          sx={{
-            backgroundColor: theme.palette.darkGreen.main,
-            color: '#fff',
-            width: '25%',
-            height: '15vh',
-            borderRadius: '16px',
-            margin: '5vh 0 5vh 5vh',
-            fontSize: '1.2rem',
-            textTransform: 'none',
-          }}
-          onClick={handleCreateBoard} 
-        >
-          Create new board
-        </Button>
-      </Box>
+       <Box sx={{width:'100%', display:'grid', gridTemplateColumns: 'repeat(3, 1fr)',
+gridTemplateRows: 'repeat(3, 1fr)',gridRowGap:'5vh', marginTop:'5vh',paddingLeft:'5vw'}}>
+        <NewBoardButton buttonColor={buttonColors[0]} buttonText={buttonTexts[0]} />
+        {/* <BoardButton buttonColor={buttonColors[1]} buttonText={buttonTexts[1]}/>
+        */}
+        </Box>
     </Container>
   );
 };
