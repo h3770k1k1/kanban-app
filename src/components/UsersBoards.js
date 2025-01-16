@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Box, useTheme} from '@mui/material';
 import NewBoardButton from './NewBoardButton';
-import BoardButton from './BoardButton';
+// import BoardButton from './BoardButton';
 
 const UsersBoards = () => {
   const theme = useTheme();
@@ -21,12 +21,8 @@ const UsersBoards = () => {
        <Box sx={{width:'100%', display:'grid', gridTemplateColumns: 'repeat(3, 1fr)',
 gridTemplateRows: 'repeat(3, 1fr)',gridRowGap:'5vh', marginTop:'5vh',paddingLeft:'5vw'}}>
         <NewBoardButton buttonColor={buttonColors[0]} buttonText={buttonTexts[0]} />
-        <BoardButton buttonColor={buttonColors[1]} buttonText={buttonTexts[1]}/>
-        <BoardButton buttonColor={buttonColors[1]} buttonText={buttonTexts[1]}/>
-        <BoardButton buttonColor={buttonColors[1]} buttonText={buttonTexts[1]}/>
-        <BoardButton buttonColor={buttonColors[1]} buttonText={buttonTexts[1]}/>
-        <BoardButton buttonColor={buttonColors[1]} buttonText={buttonTexts[1]}/>
-        <BoardButton buttonColor={buttonColors[1]} buttonText={buttonTexts[1]}/>
+        {/* <BoardButton buttonColor={buttonColors[1]} buttonText={buttonTexts[1]}/>
+        */}
         </Box>
     </Container>
   );
