@@ -16,6 +16,7 @@ const NewBoardButton = ({ buttonColor, buttonText }) => {
       variant="contained"
       sx={{
         backgroundColor: buttonColor, 
+        borderRadius:'16px',
       }}
       onClick={handleCreateBoard}
     >

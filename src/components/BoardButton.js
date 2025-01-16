@@ -9,6 +9,7 @@ const BoardButton = ({ buttonColor, buttonText }) => {
       className="board-button"
       variant="contained"
       sx={{
+        borderRadius:'16px',
         backgroundColor: buttonColor,
         position: 'relative', 
       }}
