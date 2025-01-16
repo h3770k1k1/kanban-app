@@ -10,7 +10,6 @@ import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import ForgotPassword from './components/ForgotPassword';
 import DeleteAccount from './components/DeleteAccount';
-import NotFound from './components/NotFound';
 import theme, { ThemeProvider } from './styles/theme';
 
 function App() {
@@ -27,7 +26,6 @@ function App() {
           <Route path="/board" element={<Board />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/delete-account" element={<DeleteAccount />} />
-          <Route path="*" element={<NotFound />} />
         </Routes>
         </ThemeProvider>
       </DndProvider>
