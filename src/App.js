@@ -15,7 +15,7 @@ import Loading from './components/Loading';
 import theme, { ThemeProvider } from './styles/theme';
 import { useLocation } from 'react-router-dom';
 
-const App = () => {
+const ContextProviders = () => {
   const [isLoading, setIsLoading] = useState(true); 
   const location = useLocation();
 
@@ -42,18 +42,18 @@ const App = () => {
         <Route path="/delete-account" element={<DeleteAccount />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+      </>
   );
 };
 
-const AppWithRouter = () => (
+const App = () => (
   <Router>
     <DndProvider backend={HTML5Backend}>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </DndProvider>
+     <ThemeProvider theme={theme}>
+        <ContextProviders />
+        </ThemeProvider>
+        </DndProvider>
   </Router>
 );
 
-export default AppWithRouter;
+export default App;
