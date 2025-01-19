@@ -1,9 +1,22 @@
-import React from 'react';
-import { CircularProgress, Box, Typography,useTheme } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { CircularProgress, Box, Typography, useTheme } from '@mui/material';
 
-const Loading = () => {
-        const theme = useTheme();
-    
+const Loading = ({ delay = 1000, onComplete }) => {
+  const theme = useTheme();
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+      if (onComplete) onComplete();
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [delay, onComplete]);
+
+  if (!isVisible) {
+    return null; 
+  }
+
   return (
     <Box
       sx={{
