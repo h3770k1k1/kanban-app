@@ -13,6 +13,8 @@ import {
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../FirebaseConfig';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "./AuthContext";
+import SignInInfo from './SignInInfo';
 
 const SignUp = () => {
     const theme = useTheme();
@@ -22,6 +24,7 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
+    const { user } = useAuth();
 
     const handleSignUp = async (e) => {
         e.preventDefault();
@@ -37,7 +40,6 @@ const SignUp = () => {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            // Optionally, update the user's display name
             await updateProfile(user, {
                 displayName: email.split('@')[0],
             });
@@ -49,7 +51,9 @@ const SignUp = () => {
         }
     };
 
-    return (
+    return user ? (
+        <SignInInfo />
+    ) : (
         <Container component="main" maxWidth="xs">
             <Box
                 sx={{
