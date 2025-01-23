@@ -1,8 +1,38 @@
-import React from 'react';
-import { Box, Button, Container, TextField, Typography, Grid, Link, useTheme } from '@mui/material';
+import React, { useState } from 'react';
+import {
+    Box,
+    Button,
+    Container,
+    TextField,
+    Typography,
+    Grid,
+    Link,
+    useTheme,
+    Alert,
+} from '@mui/material';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../FirebaseConfig';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
     const theme = useTheme();
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const handleSignIn = async (e) => {
+        e.preventDefault();
+        setError('');
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            navigate('/users-boards');
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
     return (
         <Container component="main" maxWidth="xs">
             <Box
@@ -16,7 +46,8 @@ const SignIn = () => {
                 <Typography component="h1" variant="h5">
                     Sign In
                 </Typography>
-                <Box component="form" noValidate sx={{ mt: 1 }}>
+                {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+                <Box component="form" noValidate onSubmit={handleSignIn} sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required
@@ -27,6 +58,8 @@ const SignIn = () => {
                         autoComplete="email"
                         color="primary"
                         autoFocus
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <TextField
                         margin="normal"
@@ -38,6 +71,8 @@ const SignIn = () => {
                         id="password"
                         autoComplete="current-password"
                         color="primary"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                     <Button
                         type="submit"

@@ -6,7 +6,8 @@ import { ThemeProvider } from './styles/theme';
 import ContextProviders from './components/ContextProviders';
 import theme from './styles/theme';
 
-const App = () => (
+const App = () => {
+return(
   <Router>
     <DndProvider backend={HTML5Backend}>
       <ThemeProvider theme={theme}>
@@ -14,6 +15,7 @@ const App = () => (
       </ThemeProvider>
     </DndProvider>
   </Router>
-);
+)
+};
 
 export default App;

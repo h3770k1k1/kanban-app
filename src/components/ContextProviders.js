@@ -11,10 +11,12 @@ import DeleteAccount from './DeleteAccount';
 import NotFound from './NotFound';
 import Loading from './Loading';
 import ErrorBoundary from './ErrorBoundary';
+import { AuthProvider } from "./AuthContext";
 
 const ContextProviders = () => {
   return (
     <Loading timeout={5000}>
+      <AuthProvider>
       <Header />
       <ErrorBoundary>
         <Routes>
@@ -28,6 +30,7 @@ const ContextProviders = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </ErrorBoundary>
+      </AuthProvider>
     </Loading>
   );
 };

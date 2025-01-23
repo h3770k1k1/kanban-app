@@ -1,8 +1,54 @@
-import React from 'react';
-import { Box, Button, Container, TextField, Typography, Grid, Link, useTheme } from '@mui/material';
+import React, { useState } from 'react';
+import {
+    Box,
+    Button,
+    Container,
+    TextField,
+    Typography,
+    Grid,
+    Link,
+    useTheme,
+    Alert,
+} from '@mui/material';
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from '../FirebaseConfig';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const theme = useTheme();
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState(false);
+
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        setError('');
+        setSuccess(false);
+
+        if (password !== confirmPassword) {
+            setError('Passwords do not match.');
+            return;
+        }
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Optionally, update the user's display name
+            await updateProfile(user, {
+                displayName: email.split('@')[0],
+            });
+
+            setSuccess(true);
+            navigate('/users-boards');
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
     return (
         <Container component="main" maxWidth="xs">
             <Box
@@ -16,7 +62,9 @@ const SignUp = () => {
                 <Typography component="h1" variant="h5">
                     Sign Up
                 </Typography>
-                <Box component="form" noValidate sx={{ mt: 1 }}>
+                {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+                {success && <Alert severity="success" sx={{ mt: 2 }}>Account created successfully!</Alert>}
+                <Box component="form" noValidate onSubmit={handleSignUp} sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required
@@ -26,6 +74,8 @@ const SignUp = () => {
                         name="email"
                         autoComplete="email"
                         color="primary"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <TextField
                         margin="normal"
@@ -37,6 +87,8 @@ const SignUp = () => {
                         id="password"
                         autoComplete="new-password"
                         color="primary"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                     <TextField
                         margin="normal"
@@ -48,6 +100,8 @@ const SignUp = () => {
                         id="confirmPassword"
                         autoComplete="new-password"
                         color="primary"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                     <Button
                         type="submit"
