@@ -15,6 +15,7 @@ import { auth } from '../FirebaseConfig';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "./AuthContext";
 import SignInInfo from './SignInInfo';
+import { validateForm } from './formValidation';
 
 const SignUp = () => {
     const theme = useTheme();
@@ -25,6 +26,8 @@ const SignUp = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
     const { user } = useAuth();
+
+    const { isValid, isEmailValid, isPasswordValid, isPasswordsMatch } = validateForm(email, password, confirmPassword);
 
     const handleSignUp = async (e) => {
         e.preventDefault();
@@ -80,6 +83,8 @@ const SignUp = () => {
                         color="primary"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        error={!isEmailValid}
+                        helperText={!isEmailValid ? 'Enter a valid email' : ''}
                     />
                     <TextField
                         margin="normal"
@@ -93,6 +98,8 @@ const SignUp = () => {
                         color="primary"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        error={!isPasswordValid}
+                        helperText={!isPasswordValid ? 'Password must be at least 6 characters' : ''}
                     />
                     <TextField
                         margin="normal"
@@ -106,12 +113,20 @@ const SignUp = () => {
                         color="primary"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
+                        error={!isPasswordsMatch}
+                        helperText={!isPasswordsMatch ? 'Passwords do not match' : ''}
                     />
                     <Button
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.darkGreen.main }}
+                        sx={{
+                            mt: 3, mb: 2,
+                            backgroundColor: isValid
+                                ? theme.palette.darkGreen.main
+                                : theme.palette.grey[400],
+                        }}
+                        disabled={!isValid}
                     >
                         Sign Up
                     </Button>
