@@ -7,30 +7,27 @@ const Loading = ({ timeout = 5000, children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
 
-  useEffect(() => {
-    let timeoutId;
-    let locationDetected = false;
+    useEffect(() => {
+        let timeoutId;
+        let locationDetected = false;
 
-    const checkLocation = () => {
-      if (location) {
-        locationDetected = true;
-        setTimeout(() => setIsLoading(false), 1000);
-      }
-    };
+        if (location) {
+            locationDetected = true;
+            setTimeout(() => setIsLoading(false), 1000);
+        }
 
-    timeoutId = setTimeout(() => {
-      if (!locationDetected) {
-        console.warn("Location was not detected within the timeout.");
-        setTimeout(() => setIsLoading(false), 1000);
-      }
-    }, timeout);
+        timeoutId = setTimeout(() => {
+            if (!locationDetected) {
+                console.warn("Location was not detected within the timeout.");
+                setTimeout(() => setIsLoading(false), 1000);
+            }
+        }, timeout);
 
-    checkLocation();
+        return () => clearTimeout(timeoutId);
+    }, [location, timeout]);
 
-    return () => clearTimeout(timeoutId);
-  }, [location, timeout]);
 
-  if (isLoading) {
+    if (isLoading) {
     return (
       <Box
         sx={{
