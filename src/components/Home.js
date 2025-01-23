@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Typography, Box, Button } from '@mui/material';
-import homePicture from './homePicture.png';
 import leaf from './leaf.svg';
 import { useNavigate } from 'react-router-dom'; 
 

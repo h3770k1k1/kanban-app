@@ -2,9 +2,15 @@ import React from 'react';
 import {Container, Box, Typography, Button} from '@mui/material';
 import logo from './logo.svg'
 import theme from '../styles/theme';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
-  return (
+    const navigate = useNavigate();
+    const handleGetStarted = () => {
+        navigate('/sign-in');
+    };
+
+    return (
 <Container sx={{display:'flex', justifyContent:'center'}}>
     <Box
       sx={{
@@ -18,7 +24,7 @@ const Header = () => {
         borderColor: 'black',
       }}
     >
-     <Typography> <img src={logo} alt="Logo" /></Typography><Button sx={{backgroundColor:'none',color:theme.palette.darkGreen.main, marginBottom: '1vh',marginRight:'1vh'}}>Sign In</Button>
+     <Typography> <img src={logo} alt="Logo" /></Typography><Button sx={{backgroundColor:'none',color:theme.palette.darkGreen.main, marginBottom: '1vh',marginRight:'1vh'}} onClick={handleGetStarted} >Sign In</Button>
     </Box></Container>
   );
 };
