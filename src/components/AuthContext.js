@@ -8,10 +8,10 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const removeAuthListener = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
         });
-        return () => unsubscribe();
+        return () => removeAuthListener();
     }, []);
 
     const handleSignOut = async () => {
