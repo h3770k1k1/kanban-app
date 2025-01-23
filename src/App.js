@@ -5,10 +5,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { ThemeProvider } from './styles/theme';
 import ContextProviders from './components/ContextProviders';
 import theme from './styles/theme';
-import  {app} from "./FirebaseConfig";
 
 const App = () => {
-    console.log("Firebase App:", app);
 return(
   <Router>
     <DndProvider backend={HTML5Backend}>
@@ -16,7 +14,8 @@ return(
         <ContextProviders />
       </ThemeProvider>
     </DndProvider>
-  </Router>)
+  </Router>
+)
 };
 
 export default App;
