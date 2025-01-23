@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Home from './Home';
 import UsersBoards from './UsersBoards';
 import Board from './Board';
 import Header from './Header';
@@ -20,10 +19,9 @@ const ContextProviders = () => {
       <Header />
       <ErrorBoundary>
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/users-boards" element={<UsersBoards />} />
+          <Route path="/" element={<UsersBoards />} />
           <Route path="/board" element={<Board />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/delete-account" element={<DeleteAccount />} />

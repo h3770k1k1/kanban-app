@@ -17,6 +17,7 @@ const NewBoardButton = ({ buttonColor, buttonText }) => {
       sx={{
         backgroundColor: buttonColor, 
         borderRadius:'16px',
+          fontSize:'16px',
       }}
       onClick={handleCreateBoard}
     >

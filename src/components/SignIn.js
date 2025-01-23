@@ -13,6 +13,8 @@ import {
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../FirebaseConfig';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
+import SignInInfo from './SignInInfo';
 
 const SignIn = () => {
     const theme = useTheme();
@@ -20,6 +22,7 @@ const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const { user } = useAuth();
 
     const handleSignIn = async (e) => {
         e.preventDefault();
@@ -27,13 +30,15 @@ const SignIn = () => {
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            navigate('/users-boards');
+            navigate('/');
         } catch (err) {
             setError(err.message);
         }
     };
 
-    return (
+    return user ? (
+        <SignInInfo />
+    ) : (
         <Container component="main" maxWidth="xs">
             <Box
                 sx={{
