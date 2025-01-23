@@ -43,7 +43,7 @@ const SignUp = () => {
             });
 
             setSuccess(true);
-            navigate('/users-boards');
+            navigate('/');
         } catch (err) {
             setError(err.message);
         }

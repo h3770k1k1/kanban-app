@@ -27,7 +27,7 @@ const SignIn = () => {
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            navigate('/users-boards');
+            navigate('/');
         } catch (err) {
             setError(err.message);
         }
