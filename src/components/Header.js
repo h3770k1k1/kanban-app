@@ -13,6 +13,10 @@ const Header = () => {
         navigate("/sign-in");
     };
 
+    const handleLogoClick = () => {
+        navigate("/");
+    };
+
     return (
         <Container sx={{ display: "flex", justifyContent: "center" }}>
             <Box
@@ -28,7 +32,9 @@ const Header = () => {
                 }}
             >
                 <Typography>
-                    <img src={logo} alt="Logo" />
+                    <Box onClick={handleLogoClick} sx={{ cursor: 'pointer' }}>
+                        <img src={logo} alt="Logo" />
+                    </Box>
                 </Typography>
                 {user ? (
                     <Box sx={{ display: "flex", alignItems: "center" }}>
