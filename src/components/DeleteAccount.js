@@ -27,7 +27,7 @@ const DeleteAccount = () => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
-                        color={theme.palette.link.main}
+                        color={theme.palette.darkGreen.main}
                     />
                     <Button
                         type="submit"

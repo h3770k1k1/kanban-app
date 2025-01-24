@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Box, Typography, Button } from "@mui/material";
 import logo from "./logo.svg";
 import theme from "../styles/theme";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import DropdownMenu from "./DropdownMenu";
 
 const Header = () => {
     const navigate = useNavigate();
-    const { user, handleSignOut } = useAuth();
+    const { user } = useAuth();
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     const handleSignIn = () => {
         navigate("/sign-in");
@@ -46,10 +57,14 @@ const Header = () => {
                                 marginBottom: "1vh",
                                 marginRight: "1vh",
                             }}
-                            onClick={handleSignOut}
+                            onClick={handleClick}
                         >
                             Signed in as {user.displayName}
                         </Button>
+                        <DropdownMenu
+                            anchorEl={anchorEl}
+                            handleClose={handleClose}
+                        />
                     </Box>
                 ) : (
                     <Button
