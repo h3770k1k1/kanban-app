@@ -15,7 +15,7 @@ import { auth } from '../FirebaseConfig';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "./AuthContext";
 import SignInInfo from './SignInInfo';
-import { validateForm } from './formValidation';
+import { validateSignUpForm } from './validateSignUpForm';
 
 const SignUp = () => {
     const theme = useTheme();
@@ -27,7 +27,7 @@ const SignUp = () => {
     const [success, setSuccess] = useState(false);
     const { user } = useAuth();
 
-    const { isValid, isEmailValid, isPasswordValid, isPasswordsMatch } = validateForm(email, password, confirmPassword);
+    const { isValid, isEmailValid, isPasswordValid, isPasswordsMatch } = validateSignUpForm(email, password, confirmPassword);
 
     const handleSignUp = async (e) => {
         e.preventDefault();

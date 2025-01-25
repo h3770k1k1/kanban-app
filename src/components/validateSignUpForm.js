@@ -1,4 +1,4 @@
-export const validateForm = (email, password, confirmPassword) => {
+export const validateSignUpForm = (email, password, confirmPassword) => {
     const isEmailValid = email.includes('@');
     const isPasswordValid = password.length >= 6;
     const isPasswordsMatch = password === confirmPassword;
