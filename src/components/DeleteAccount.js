@@ -1,8 +1,45 @@
-import React from 'react';
-import { Box, Button, Container, TextField, Typography, useTheme } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, Container, TextField, Typography, Alert, useTheme } from '@mui/material';
+import { reauthenticateWithCredential, EmailAuthProvider, deleteUser } from "firebase/auth";
+import { doc, deleteDoc } from "firebase/firestore";
+import DeleteAccountInfo from "./DeleteAccountInfo";
+import { useAuth } from "./AuthContext";
+import { firestore } from "../FirebaseConfig";
 
 const DeleteAccount = () => {
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState(false);
+    const { user } = useAuth();
     const theme = useTheme();
+
+    const handleDeleteAccount = async (e) => {
+        e.preventDefault();
+        setError('');
+        setSuccess(false);
+
+        if (!user) {
+            setError("User not logged in.");
+            return;
+        }
+
+        try {
+            const credential = EmailAuthProvider.credential(user.email, password);
+            await reauthenticateWithCredential(user, credential);
+
+            await deleteDoc(doc(firestore, "users", user.uid));
+
+            await deleteUser(user);
+
+            setSuccess(true);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    if (success) {
+        return <DeleteAccountInfo />;
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -14,10 +51,11 @@ const DeleteAccount = () => {
                     alignItems: 'center',
                 }}
             >
-                <Typography component="h1" variant="h5" sx={{textAlign:'center'}}>
-                To delete your account, please enter your password
+                <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
+                    To delete your account, please enter your password
                 </Typography>
-                <Box component="form" noValidate sx={{ mt: 1 }}>
+                {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+                <Box component="form" noValidate onSubmit={handleDeleteAccount} sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required
@@ -27,13 +65,14 @@ const DeleteAccount = () => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
-                        color={theme.palette.darkGreen.main}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                     <Button
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.darkGreen.main }}
+                        sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.darkGreen.main, color: 'white' }}
                     >
                         Delete Account
                     </Button>
