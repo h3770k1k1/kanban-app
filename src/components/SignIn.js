@@ -32,7 +32,7 @@ const SignIn = () => {
             await signInWithEmailAndPassword(auth, email, password);
             navigate('/');
         } catch (err) {
-            setError(err.message);
+            setError('Incorrect email or password');
         }
     };
 
@@ -53,6 +53,7 @@ const SignIn = () => {
                 </Typography>
                 {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
                 <Box component="form" noValidate onSubmit={handleSignIn} sx={{ mt: 1 }}>
+
                     <TextField
                         margin="normal"
                         required
@@ -62,7 +63,6 @@ const SignIn = () => {
                         name="email"
                         autoComplete="email"
                         color="primary"
-                        autoFocus
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
@@ -83,7 +83,10 @@ const SignIn = () => {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.darkGreen.main }}
+                        sx={{
+                            mt: 3, mb: 2,
+                            backgroundColor: theme.palette.darkGreen.main,
+                        }}
                     >
                         Sign In
                     </Button>
