@@ -15,27 +15,30 @@ import { auth } from '../FirebaseConfig';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "./AuthContext";
 import SignInInfo from './SignInInfo';
-import { validateSignUpForm } from './validateSignUpForm';
+import { SignUpValidator } from './validateSignUpForm';
 
 const SignUp = () => {
     const theme = useTheme();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [confirmedPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
     const { user } = useAuth();
-
-    const { isValid, isEmailValid, isPasswordValid, isPasswordsMatch } = validateSignUpForm(email, password, confirmPassword);
 
     const handleSignUp = async (e) => {
         e.preventDefault();
         setError('');
         setSuccess(false);
 
-        if (password !== confirmPassword) {
-            setError('Passwords do not match.');
+        const validation = SignUpValidator.validate({ email, password, confirmedPassword });
+
+        if (!validation.isValid) {
+            const errorMessages = Object.values(validation.errors)
+                .filter((msg) => msg) // Filter out empty error messages
+                .join(' ');
+            setError(errorMessages);
             return;
         }
 
@@ -53,6 +56,8 @@ const SignUp = () => {
             setError(err.message);
         }
     };
+
+    const validation = SignUpValidator.validate({ email, password, confirmedPassword });
 
     return user ? (
         <SignInInfo />
@@ -83,8 +88,8 @@ const SignUp = () => {
                         color="primary"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        error={!isEmailValid}
-                        helperText={!isEmailValid ? 'Enter a valid email' : ''}
+                        error={!validation.isEmailValid}
+                        helperText={validation.errors.email}
                     />
                     <TextField
                         margin="normal"
@@ -98,23 +103,23 @@ const SignUp = () => {
                         color="primary"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        error={!isPasswordValid}
-                        helperText={!isPasswordValid ? 'Password must be at least 6 characters' : ''}
+                        error={!validation.isPasswordValid}
+                        helperText={validation.errors.password}
                     />
                     <TextField
                         margin="normal"
                         required
                         fullWidth
-                        name="confirmPassword"
+                        name="confirmedPassword"
                         label="Confirm Password"
                         type="password"
-                        id="confirmPassword"
+                        id="confirmedPassword"
                         autoComplete="new-password"
                         color="primary"
-                        value={confirmPassword}
+                        value={confirmedPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        error={!isPasswordsMatch}
-                        helperText={!isPasswordsMatch ? 'Passwords do not match' : ''}
+                        error={!validation.isPasswordsMatch}
+                        helperText={validation.errors.confirmedPassword}
                     />
                     <Button
                         type="submit"
@@ -122,11 +127,11 @@ const SignUp = () => {
                         variant="contained"
                         sx={{
                             mt: 3, mb: 2,
-                            backgroundColor: isValid
+                            backgroundColor: validation.isValid
                                 ? theme.palette.darkGreen.main
                                 : theme.palette.grey[400],
                         }}
-                        disabled={!isValid}
+                        disabled={!validation.isValid}
                     >
                         Sign Up
                     </Button>
