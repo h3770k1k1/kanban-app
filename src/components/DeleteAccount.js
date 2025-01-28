@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { Box, Button, Container, TextField, Typography, Alert, useTheme } from '@mui/material';
-import { reauthenticateWithCredential, EmailAuthProvider, deleteUser } from "firebase/auth";
-import { doc, deleteDoc } from "firebase/firestore";
-import DeleteAccountInfo from "./DeleteAccountInfo";
 import { useAuth } from "./AuthContext";
-import { firestore } from "../FirebaseConfig";
+import { AccountManager } from "../AccountManager";
 
 const DeleteAccount = () => {
+    const theme = useTheme();
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
     const { user } = useAuth();
-    const theme = useTheme();
 
     const handleDeleteAccount = async (e) => {
         e.preventDefault();
@@ -24,13 +21,7 @@ const DeleteAccount = () => {
         }
 
         try {
-            const credential = EmailAuthProvider.credential(user.email, password);
-            await reauthenticateWithCredential(user, credential);
-
-            await deleteDoc(doc(firestore, "users", user.uid));
-
-            await deleteUser(user);
-
+            await AccountManager.deleteAccount(password);
             setSuccess(true);
         } catch (err) {
             setError(err.message);
@@ -38,14 +29,22 @@ const DeleteAccount = () => {
     };
 
     if (success) {
-        return <DeleteAccountInfo />;
+        return (
+            <Container component="main" maxWidth="xs">
+                <Box sx={{ mt: 8, textAlign: 'center' }}>
+                    <Typography variant="h5" color="grey">
+                        Your account has been deleted successfully.
+                    </Typography>
+                </Box>
+            </Container>
+        );
     }
 
     return (
         <Container component="main" maxWidth="xs">
             <Box
                 sx={{
-                    marginTop: 8,
+                    mt: 8,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -72,7 +71,7 @@ const DeleteAccount = () => {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.darkGreen.main, color: 'white' }}
+                        sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.darkGreen.main }}
                     >
                         Delete Account
                     </Button>

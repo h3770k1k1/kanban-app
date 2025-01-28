@@ -1,4 +1,4 @@
-import { SignUpValidator } from '../components/validateSignUpForm';
+import { SignUpValidator } from '../validateSignUpForm';
 
 describe('SignUpValidator', () => {
     test('Should return true for correct email, password, and matching passwords', () => {
@@ -13,7 +13,10 @@ describe('SignUpValidator', () => {
 
         const response = SignUpValidator.validate(params);
 
-        expect(response).toBe(true);
+        expect(response.isValid).toBe(true);
+        expect(response.errors.email).toBe('');
+        expect(response.errors.password).toBe('');
+        expect(response.errors.confirmedPassword).toBe('');
     });
 
     test('Should invalidate for incorrect email', () => {
