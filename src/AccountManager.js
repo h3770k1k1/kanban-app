@@ -59,7 +59,7 @@ export const AccountManager = {
             setLoading(false);
         }
     },
-    async signOut() {
+    async handleSignOut() {
         return FirebaseAccountManager.signOut();
     },
 

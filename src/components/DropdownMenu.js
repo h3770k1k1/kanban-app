@@ -8,7 +8,7 @@ const DropdownMenu = ({ anchorEl, handleClose }) => {
 
     const handleSignOutClick = async () => {
         try {
-            await AccountManager.signOut();
+            await AccountManager.handleSignOut();
             handleClose();
             navigate("/sign-in");
         } catch (error) {
