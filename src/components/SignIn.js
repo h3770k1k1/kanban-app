@@ -21,18 +21,12 @@ const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const { user } = useAuth();
 
-    const handleSignIn = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setError('');
-
-        try {
-            await AccountManager.signIn(email, password);
-            navigate('/');
-        } catch (err) {
-            setError('Incorrect email or password');
-        }
+        AccountManager.handleSignIn(email, password, setError, setLoading, navigate);
     };
 
     return user ? (
@@ -51,7 +45,7 @@ const SignIn = () => {
                     Sign In
                 </Typography>
                 {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-                <Box component="form" noValidate onSubmit={handleSignIn} sx={{ mt: 1 }}>
+                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required
@@ -85,8 +79,9 @@ const SignIn = () => {
                             mt: 3, mb: 2,
                             backgroundColor: theme.palette.darkGreen.main,
                         }}
+                        disabled={loading}
                     >
-                        Sign In
+                        {loading ? 'Signing In...' : 'Sign In'}
                     </Button>
                     <Grid container>
                         <Grid item xs>

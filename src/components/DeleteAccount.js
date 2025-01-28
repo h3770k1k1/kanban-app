@@ -10,22 +10,9 @@ const DeleteAccount = () => {
     const [success, setSuccess] = useState(false);
     const { user } = useAuth();
 
-    const handleDeleteAccount = async (e) => {
+    const onSubmit = (e) => {
         e.preventDefault();
-        setError('');
-        setSuccess(false);
-
-        if (!user) {
-            setError("User not logged in.");
-            return;
-        }
-
-        try {
-            await AccountManager.deleteAccount(password);
-            setSuccess(true);
-        } catch (err) {
-            setError(err.message);
-        }
+        AccountManager.handleDeleteAccount(password, user, setError, setSuccess);
     };
 
     if (success) {
@@ -54,7 +41,7 @@ const DeleteAccount = () => {
                     To delete your account, please enter your password
                 </Typography>
                 {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-                <Box component="form" noValidate onSubmit={handleDeleteAccount} sx={{ mt: 1 }}>
+                <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required

@@ -1,19 +1,66 @@
 import { FirebaseAccountManager } from "./FirebaseAccountManager";
-
+import {SignUpValidator} from "./validateSignUpForm";
 export const AccountManager = {
-    async deleteAccount(password) {
-        return FirebaseAccountManager.deleteAccount(password);
+
+    async handleDeleteAccount(password, user, setError, setSuccess) {
+        setError('');
+        setSuccess(false);
+
+        if (!user) {
+            setError("User not logged in.");
+            return;
+        }
+
+        try {
+            await FirebaseAccountManager.deleteAccount(password);
+            setSuccess(true);
+        } catch (err) {
+            setError(err.message);
+        }
     },
-    async signUp(email, password, displayName) {
-        return FirebaseAccountManager.signUp(email, password, displayName);
+
+    async handleSignUp(email, password, confirmedPassword, setError, setSuccess, setLoading, navigate) {
+        setError('');
+        setSuccess(false);
+        setLoading(true);
+
+        const validation = SignUpValidator.validate({ email, password, confirmedPassword });
+
+        if (!validation.isValid) {
+            const errorMessages = Object.values(validation.errors).join(' ');
+            setError(errorMessages);
+            setLoading(false);
+            return;
+        }
+
+        try {
+            await FirebaseAccountManager.signUp(email, password, email.split('@')[0]);
+            setSuccess(true);
+            navigate('/');
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
     },
-    async signIn(email, password) {
-        return FirebaseAccountManager.signIn(email, password);
+
+    async handleSignIn(email, password, setError, setSuccess, setLoading, navigate) {
+        setError('');
+        setSuccess(false);
+        setLoading(true);
+
+        try {
+            await FirebaseAccountManager.signIn(email, password);
+            setSuccess(true);
+            navigate('/');
+        } catch (err) {
+            setError('Incorrect email or password');
+        } finally {
+            setLoading(false);
+        }
     },
     async signOut() {
         return FirebaseAccountManager.signOut();
     },
-    observeUser(callback) {
-        return FirebaseAccountManager.observeUser(callback);
-    },
+
 };

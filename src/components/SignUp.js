@@ -1,19 +1,7 @@
 import React, { useState } from 'react';
-import {
-    Box,
-    Button,
-    Container,
-    TextField,
-    Typography,
-    Alert,
-    Grid,
-    Link,
-    CircularProgress,
-    useTheme,
-} from '@mui/material';
+import { Box, Button, Container, TextField, Typography, Alert, Grid, Link, CircularProgress, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { AccountManager } from "../AccountManager";
-import { SignUpValidator } from '../validateSignUpForm';
 
 const SignUp = () => {
     const theme = useTheme();
@@ -25,30 +13,9 @@ const SignUp = () => {
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const handleSignUp = async (e) => {
+    const onSubmit = (e) => {
         e.preventDefault();
-        setError('');
-        setSuccess(false);
-        setLoading(true);
-
-        const validation = SignUpValidator.validate({ email, password, confirmedPassword });
-
-        if (!validation.isValid) {
-            const errorMessages = Object.values(validation.errors).join(' ');
-            setError(errorMessages);
-            setLoading(false);
-            return;
-        }
-
-        try {
-            await AccountManager.signUp(email, password, email.split('@')[0]);
-            setSuccess(true);
-            navigate('/');
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
+        AccountManager.handleSignUp(email, password, confirmedPassword, setError, setSuccess, setLoading, navigate);
     };
 
     return (
@@ -70,7 +37,7 @@ const SignUp = () => {
                         Account created successfully! Redirecting...
                     </Alert>
                 )}
-                <Box component="form" noValidate onSubmit={handleSignUp} sx={{ mt: 1 }}>
+                <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required
