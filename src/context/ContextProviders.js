@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import SignIn from '../views/SignIn';
 import SignUp from '../views/SignUp';
 import ForgotPassword from '../views/ForgotPassword';
+import ResetPassword from '../views/ResetPassword';
 import DeleteAccount from '../views/DeleteAccount';
 import NotFound from '../views/NotFound';
 import Loading from '../views/Loading';
@@ -24,6 +25,7 @@ const ContextProviders = () => {
           <Route path="/" element={<UsersBoards />} />
           <Route path="/board" element={<Board />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/delete-account" element={<DeleteAccount />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Container, TextField, Typography, Alert, CircularProgress, useTheme } from '@mui/material';
-import { AccountManager } from "../lib/AccountManager"; // Import the AccountManager
+import { AccountManager } from "../lib/AccountManager";
 import DeleteAccountInfo from "../components/DeleteAccountInfo";
 import { useAuth } from "../context/AuthContext";
 
