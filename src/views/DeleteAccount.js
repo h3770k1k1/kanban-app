@@ -1,39 +1,43 @@
 import React, { useState } from 'react';
-import { Box, Button, Container, TextField, Typography, Alert, useTheme } from '@mui/material';
-import { reauthenticateWithCredential, EmailAuthProvider, deleteUser } from "firebase/auth";
-import { doc, deleteDoc } from "firebase/firestore";
+import { Box, Button, Container, TextField, Typography, Alert, CircularProgress, useTheme } from '@mui/material';
+import { AccountManager } from "../lib/AccountManager"; // Import the AccountManager
 import DeleteAccountInfo from "../components/DeleteAccountInfo";
 import { useAuth } from "../context/AuthContext";
-import { firestore } from "../lib/FirebaseConfig";
 
 const DeleteAccount = () => {
     const theme = useTheme();
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { user } = useAuth();
 
     const handleDeleteAccount = async (e) => {
         e.preventDefault();
         setError('');
         setSuccess(false);
+        setLoading(true);
 
         if (!user) {
             setError("User not logged in.");
+            setLoading(false);
+            return;
+        }
+
+        if (!password) {
+            setError("Please enter your password.");
+            setLoading(false);
             return;
         }
 
         try {
-            const credential = EmailAuthProvider.credential(user.email, password);
-            await reauthenticateWithCredential(user, credential);
-
-            await deleteDoc(doc(firestore, "users", user.uid));
-
-            await deleteUser(user);
-
+            const accountManager = new AccountManager();
+            await accountManager.deleteAccount(password);
             setSuccess(true);
         } catch (err) {
             setError(err.message || 'An error occurred while deleting the account.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -73,8 +77,9 @@ const DeleteAccount = () => {
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.darkGreen.main }}
+                        disabled={loading}
                     >
-                        Delete Account
+                        {loading ? <CircularProgress size={24} color="inherit" /> : 'Delete Account'}
                     </Button>
                 </Box>
             </Box>
