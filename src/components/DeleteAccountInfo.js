@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Typography } from '@mui/material';
-import DeleteAccount from "./DeleteAccount";
 
 const DeleteAccountInfo = () => {
     return (
@@ -14,7 +13,7 @@ const DeleteAccountInfo = () => {
             }}
         >
             <Typography variant="h5" color="textSecondary" align="center">
-                Signed In successfully
+               Deleted account successfully
             </Typography>
         </Container>
     );

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import UsersBoards from './UsersBoards';
-import Board from './Board';
-import Header from './Header';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import ForgotPassword from './ForgotPassword';
-import DeleteAccount from './DeleteAccount';
-import NotFound from './NotFound';
-import Loading from './Loading';
-import ErrorBoundary from './ErrorBoundary';
+import UsersBoards from '../views/UsersBoards';
+import Board from '../views/Board';
+import Header from '../components/Header';
+import SignIn from '../views/SignIn';
+import SignUp from '../views/SignUp';
+import ForgotPassword from '../views/ForgotPassword';
+import DeleteAccount from '../views/DeleteAccount';
+import NotFound from '../views/NotFound';
+import Loading from '../views/Loading';
+import ErrorBoundary from '../scripts/ErrorBoundary';
 import { AuthProvider } from "./AuthContext";
 
 const ContextProviders = () => {

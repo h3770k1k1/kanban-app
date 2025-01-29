@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Box, Button, Container, TextField, Typography, Alert, useTheme } from '@mui/material';
-import { useAuth } from "./AuthContext";
-import { AccountManager } from "../AccountManager";
+import { reauthenticateWithCredential, EmailAuthProvider, deleteUser } from "firebase/auth";
+import { doc, deleteDoc } from "firebase/firestore";
+import DeleteAccountInfo from "../components/DeleteAccountInfo";
+import { useAuth } from "../context/AuthContext";
+import { firestore } from "../lib/FirebaseConfig";
 
 const DeleteAccount = () => {
     const theme = useTheme();
@@ -10,21 +13,32 @@ const DeleteAccount = () => {
     const [success, setSuccess] = useState(false);
     const { user } = useAuth();
 
-    const onSubmit = (e) => {
+    const handleDeleteAccount = async (e) => {
         e.preventDefault();
-        AccountManager.handleDeleteAccount(password, user, setError, setSuccess);
+        setError('');
+        setSuccess(false);
+
+        if (!user) {
+            setError("User not logged in.");
+            return;
+        }
+
+        try {
+            const credential = EmailAuthProvider.credential(user.email, password);
+            await reauthenticateWithCredential(user, credential);
+
+            await deleteDoc(doc(firestore, "users", user.uid));
+
+            await deleteUser(user);
+
+            setSuccess(true);
+        } catch (err) {
+            setError(err.message || 'An error occurred while deleting the account.');
+        }
     };
 
     if (success) {
-        return (
-            <Container component="main" maxWidth="xs">
-                <Box sx={{ mt: 8, textAlign: 'center' }}>
-                    <Typography variant="h5" color="grey">
-                        Your account has been deleted successfully.
-                    </Typography>
-                </Box>
-            </Container>
-        );
+        return <DeleteAccountInfo />;
     }
 
     return (
@@ -41,7 +55,7 @@ const DeleteAccount = () => {
                     To delete your account, please enter your password
                 </Typography>
                 {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-                <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
+                <Box component="form" noValidate onSubmit={handleDeleteAccount} sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required

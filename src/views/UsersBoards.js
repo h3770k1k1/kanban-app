@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Box, Typography, useTheme } from '@mui/material';
-import NewBoardButton from './NewBoardButton';
-import { useAuth } from './AuthContext';
+import NewBoardButton from '../components/NewBoardButton';
+import { useAuth } from '../context/AuthContext';
 // import BoardButton from './BoardButton';
 
 const UsersBoards = () => {

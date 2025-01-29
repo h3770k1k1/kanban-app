@@ -11,7 +11,7 @@ import {
 } from "firebase/auth";
 import { doc, deleteDoc } from "firebase/firestore";
 
-export const FirebaseAccountManager = {
+export class FirebaseAccountManager {
 
     async signUp(email, password, displayName) {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -19,7 +19,7 @@ export const FirebaseAccountManager = {
 
         await updateProfile(user, { displayName });
         return user;
-    },
+    }
 
     async signIn(email, password) {
         try {
@@ -28,11 +28,11 @@ export const FirebaseAccountManager = {
         } catch (error) {
             throw new Error('Incorrect email or password');
         }
-    },
+    }
 
     async signOut() {
         await signOut(auth);
-    },
+    }
 
         async deleteAccount(password) {
             const user = auth.currentUser;
@@ -55,9 +55,9 @@ export const FirebaseAccountManager = {
                     throw new Error(error.message || "Failed to delete account.");
                 }
             }
-        },
+        }
 
     observeUser(callback) {
         return onAuthStateChanged(auth, callback);
-    },
-};
+    }
+}

@@ -1,14 +1,16 @@
 import React from "react";
 import { Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { AccountManager } from "../AccountManager";
+import { AccountManager } from "../lib/AccountManager";
 
 const DropdownMenu = ({ anchorEl, handleClose }) => {
     const navigate = useNavigate();
 
     const handleSignOutClick = async () => {
         try {
-            await AccountManager.handleSignOut();
+            // Create an instance of AccountManager
+            const accountManager = new AccountManager();
+            await accountManager.signOut();
             handleClose();
             navigate("/sign-in");
         } catch (error) {

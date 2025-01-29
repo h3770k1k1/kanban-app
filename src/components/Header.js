@@ -3,7 +3,7 @@ import { Container, Box, Typography, Button } from "@mui/material";
 import logo from "./logo.svg";
 import theme from "../styles/theme";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../context/AuthContext";
 import DropdownMenu from "./DropdownMenu";
 
 const Header = () => {
