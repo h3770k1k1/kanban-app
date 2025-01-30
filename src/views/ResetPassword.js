@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { confirmPasswordReset, getAuth } from "firebase/auth";
-import { Box, Button, Container, TextField, Typography, Alert } from "@mui/material";
+import { Box, Button, Container, TextField, Typography, Alert, useTheme } from "@mui/material";
 
 const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState("");
@@ -11,6 +11,7 @@ const ResetPassword = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const auth = getAuth();
+    const theme = useTheme();
 
     useEffect(() => {
         const code = searchParams.get("oobCode");
@@ -30,7 +31,7 @@ const ResetPassword = () => {
 
         try {
             await confirmPasswordReset(auth, oobCode, newPassword);
-            setMessage("Your password has been updated! You can now log in.");
+            setMessage("Your password has been updated! Redirecting to login...");
             setTimeout(() => navigate("/login"), 3000);
         } catch (err) {
             setError("Error resetting password: " + err.message);
@@ -58,7 +59,7 @@ const ResetPassword = () => {
                         onChange={(e) => setNewPassword(e.target.value)}
                         autoFocus
                     />
-                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2,  backgroundColor: theme.palette.darkGreen.main, }}>
                         Change Password
                     </Button>
                 </Box>
