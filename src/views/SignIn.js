@@ -10,11 +10,10 @@ import {
     useTheme,
     Alert,
 } from '@mui/material';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../FirebaseConfig';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
-import SignInInfo from './SignInInfo';
+import { useAuth } from '../context/AuthContext';
+import { AccountManager } from '../lib/AccountManager';
+import SignInInfo from '../components/SignInInfo';
 
 const SignIn = () => {
     const theme = useTheme();
@@ -29,9 +28,11 @@ const SignIn = () => {
         setError('');
 
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const accountManager = new AccountManager();
+            await accountManager.signIn(email, password);
             navigate('/');
         } catch (err) {
+            console.error('Sign In Error:', err); // Debugging log
             setError('Incorrect email or password');
         }
     };
@@ -53,7 +54,6 @@ const SignIn = () => {
                 </Typography>
                 {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
                 <Box component="form" noValidate onSubmit={handleSignIn} sx={{ mt: 1 }}>
-
                     <TextField
                         margin="normal"
                         required

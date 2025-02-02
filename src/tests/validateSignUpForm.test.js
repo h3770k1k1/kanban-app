@@ -1,7 +1,7 @@
-import { SignUpValidator } from '../components/validateSignUpForm';
+import { SignUpValidator } from '../scripts/validateSignUpForm';
 
 describe('SignUpValidator', () => {
-    test('Should return true for correct email, password, and matching passwords', () => {
+    it('Should return true for correct email, password, and matching passwords', () => {
         const email = "test@example.com";
         const password = "password123";
         const confirmedPassword = "password123";
@@ -13,10 +13,13 @@ describe('SignUpValidator', () => {
 
         const response = SignUpValidator.validate(params);
 
-        expect(response).toBe(true);
+        expect(response.isValid).toBe(true);
+        expect(response.errors.email).toBe('');
+        expect(response.errors.password).toBe('');
+        expect(response.errors.confirmedPassword).toBe('');
     });
 
-    test('Should invalidate for incorrect email', () => {
+    it('Should invalidate for incorrect email', () => {
         const invalidEmail = "email_without_at";
         const password = "password123";
         const confirmedPassword = "password123";
@@ -34,7 +37,7 @@ describe('SignUpValidator', () => {
         }
     });
 
-    test('Should invalidate for short password', () => {
+    it('Should invalidate for short password', () => {
         const email = "test@example.com";
         const password = "123";  // Short password
         const confirmedPassword = "123";
@@ -52,7 +55,7 @@ describe('SignUpValidator', () => {
         }
     });
 
-    test('Should invalidate for non-matching passwords', () => {
+    it('Should invalidate for non-matching passwords', () => {
         const email = "test@example.com";
         const password = "password123";
         const confirmedPassword = "password321";
@@ -70,7 +73,7 @@ describe('SignUpValidator', () => {
         }
     });
 
-    test('Should invalidate for all invalid inputs', () => {
+    it('Should invalidate for all invalid inputs', () => {
         const email = "invalid";
         const password = "123";
         const confirmedPassword = "321";

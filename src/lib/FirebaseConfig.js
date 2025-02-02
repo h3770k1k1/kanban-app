@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 import  {API_KEY} from "./key.js"
+
 const FirebaseConfig = {
     apiKey: API_KEY,
     authDomain: "kanban-app-7e180.firebaseapp.com",
@@ -12,7 +14,7 @@ const FirebaseConfig = {
 };
 
 const app = initializeApp(FirebaseConfig);
-
+const firestore = getFirestore(app);
 const auth = getAuth(app);
 
-export { app, auth };
+export { app, auth, firestore };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Grid, useTheme, Button,Box, TextField} from '@mui/material';
-import TaskColumnWrapper from './TaskColumnWrapper';
+import TaskColumnWrapper from '../components/TaskColumnWrapper';
 import CheckIcon from '@mui/icons-material/Check';
 
 const Board = () => {
