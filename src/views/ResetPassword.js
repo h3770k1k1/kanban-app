@@ -32,7 +32,7 @@ const ResetPassword = () => {
         try {
             await confirmPasswordReset(auth, oobCode, newPassword);
             setMessage("Your password has been updated! Redirecting to login...");
-            setTimeout(() => navigate("/login"), 3000);
+            setTimeout(() => navigate("/sign-in"), 3000);
         } catch (err) {
             setError("Error resetting password: " + err.message);
         }
