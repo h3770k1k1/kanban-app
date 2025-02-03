@@ -1,22 +1,27 @@
-import React, { createContext, useState, useEffect } from "react";
-import { AccountManager } from "../lib/AccountManager";
+import { FirebaseAccountManager } from "./FirebaseAccountManager";
 
-const accountManager = new AccountManager();
-const AuthContext = createContext();
+export class AccountManager {
+    constructor() {
+        this.firebaseAccountManager = new FirebaseAccountManager();
+    }
 
-export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    async deleteAccount(password) {
+        return this.firebaseAccountManager.deleteAccount(password);
+    }
 
-    useEffect(() => {
-        const unsubscribe = accountManager.observeUser(setUser);
-        return () => unsubscribe();
-    }, []);
+    async signUp(email, password, displayName) {
+        return this.firebaseAccountManager.signUp(email, password, displayName);
+    }
 
-    return (
-        <AuthContext.Provider value={{ user, accountManager }}>
-            {children}
-        </AuthContext.Provider>
-    );
-};
+    async signIn(email, password) {
+        return this.firebaseAccountManager.signIn(email, password);
+    }
 
-export const useAuth = () => React.useContext(AuthContext);
+    async signOut() {
+        return this.firebaseAccountManager.signOut();
+    }
+
+    observeUser(callback) {
+        return this.firebaseAccountManager.observeUser(callback);
+    }
+}
