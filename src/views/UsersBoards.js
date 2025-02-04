@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Box, Typography, useTheme } from "@mui/material";
+import { useNavigate } from "react-router-dom"; // ✅ Dodano import
 import NewBoardButton from "../components/NewBoardButton";
 import BoardButton from "../components/BoardButton";
 import { useAuth } from "../context/AuthContext";
@@ -8,6 +9,7 @@ import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/fire
 
 const UsersBoards = ({ onOpenBoard }) => {
     const theme = useTheme();
+    const navigate = useNavigate(); // ✅ Dodano useNavigate()
     const { user } = useAuth();
     const [boards, setBoards] = useState([]);
 
@@ -25,7 +27,6 @@ const UsersBoards = ({ onOpenBoard }) => {
                 userId: doc.data().userId,
                 createdAt: doc.data().createdAt
             }));
-
 
             setBoards(userBoards);
         };
@@ -46,7 +47,15 @@ const UsersBoards = ({ onOpenBoard }) => {
 
             <Box sx={{ width: "100%", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "5vh", paddingLeft: "5vw" }}>
                 {boards.map((board) => (
-                    <BoardButton key={board.id} board={board} onOpenBoard={onOpenBoard} onDeleteBoard={handleDeleteBoard} />
+                    <BoardButton
+                        key={board.id}
+                        board={board}
+                        onOpenBoard={() => {
+                            navigate(`/board/${board.id}`); // ✅ Teraz działa poprawnie!
+                            onOpenBoard(board); // Opcjonalnie, jeśli chcesz ustawić wybraną tablicę w stanie
+                        }}
+                        onDeleteBoard={handleDeleteBoard}
+                    />
                 ))}
             </Box>
         </Container>

@@ -15,13 +15,11 @@ import { AuthProvider } from "./AuthContext";
 
 const ContextProviders = () => {
     const navigate = useNavigate();
-    const [selectedBoard, setSelectedBoard] = useState(null);
+    const [selectedBoard] = useState(null);
 
     const handleOpenBoard = (board) => {
-        setSelectedBoard(board);
         navigate(`/board/${board.id}`);
     };
-
     return (
         <Loading timeout={5000}>
             <AuthProvider>
@@ -35,17 +33,14 @@ const ContextProviders = () => {
                         <Route path="/delete-account" element={<DeleteAccount />} />
                         <Route path="/" element={<UsersBoards onOpenBoard={handleOpenBoard} />} />
 
-                        {/* Obsługa nowej tablicy */}
                         <Route path="/board/new" element={<Board board={null} onClose={() => navigate("/")} />} />
 
-                        {/* Obsługa istniejącej tablicy */}
                         <Route
                             path="/board/:boardId"
-                            element={selectedBoard ? (
+                            element=
                                 <Board board={selectedBoard} onClose={() => navigate("/")} />
-                            ) : (
-                                <NotFound />
-                            )}
+
+
                         />
 
                         <Route path="*" element={<NotFound />} />

@@ -29,7 +29,7 @@ const BoardButton = ({ board, onOpenBoard, onDeleteBoard }) => {
                     color: 'white',
                 }}
                 onClick={(e) => {
-                    e.stopPropagation(); // Zapobiega otwieraniu tablicy przy kliknięciu na X
+                    e.stopPropagation();
                     onDeleteBoard(board.id);
                 }}
             >
