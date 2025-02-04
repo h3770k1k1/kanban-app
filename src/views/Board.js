@@ -5,8 +5,10 @@ import CheckIcon from '@mui/icons-material/Check';
 import { db } from "../lib/FirebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Board = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const { user } = useAuth();
   const [boardName, setBoardName] = useState("My Board");
@@ -19,48 +21,76 @@ const Board = () => {
 
   const handleAddTask = (column) => {
     const newTask = { id: Math.random(), description: "" };
-    setTasks((prevState) => ({
-      ...prevState,
-      [column]: [...prevState[column], newTask],
-    }));
+    const updatedTasks = {};
+    for (let key in tasks) {
+      if (tasks.hasOwnProperty(key)) {
+        if (key === column) {
+          updatedTasks[key] = tasks[key].concat(newTask);
+        } else {
+          updatedTasks[key] = tasks[key];
+        }
+      }
+    }
+    setTasks(updatedTasks);
   };
 
   const handleTaskDescriptionChange = (column, taskId, newDescription) => {
-    setTasks((prevState) => ({
-      ...prevState,
-      [column]: prevState[column].map((task) =>
-          task.id === taskId ? { ...task, description: newDescription } : task
-      ),
-    }));
+    const updatedTasks = {};
+    for (let key in tasks) {
+      if (tasks.hasOwnProperty(key)) {
+        if (key === column) {
+          updatedTasks[key] = tasks[key].map((task) => {
+            if (task.id === taskId) {
+              task.description = newDescription;
+            }
+            return task;
+          });
+        } else {
+          updatedTasks[key] = tasks[key];
+        }
+      }
+    }
+    setTasks(updatedTasks);
   };
 
   const handleCloseTask = (column, taskId) => {
-    setTasks((prevState) => ({
-      ...prevState,
-      [column]: prevState[column].filter((task) => task.id !== taskId),
-    }));
+    const updatedTasks = {};
+    for (let key in tasks) {
+      if (tasks.hasOwnProperty(key)) {
+        if (key === column) {
+          updatedTasks[key] = tasks[key].filter((task) => task.id !== taskId);
+        } else {
+          updatedTasks[key] = tasks[key];
+        }
+      }
+    }
+    setTasks(updatedTasks);
   };
 
   const handleDropTask = (taskId, column) => {
     let task = null;
-    Object.keys(tasks).forEach((key) => {
-      const foundTask = tasks[key].find((task) => task.id === taskId);
-      if (foundTask) {
-        task = foundTask;
+
+    for (let key in tasks) {
+      if (tasks.hasOwnProperty(key)) {
+        const foundTask = tasks[key].find((task) => task.id === taskId);
+        if (foundTask) {
+          task = foundTask;
+        }
       }
-    });
+    }
 
     if (task) {
-      setTasks((prevState) => {
-        const updatedTasks = Object.assign({}, prevState);
-        Object.keys(updatedTasks).forEach((key) => {
-          updatedTasks[key] = updatedTasks[key].filter((t) => t.id !== taskId);
-        });
-
-        updatedTasks[column] = updatedTasks[column].slice();
-        updatedTasks[column].push(task);
-        return updatedTasks;
-      });
+      const updatedTasks = {};
+      for (let key in tasks) {
+        if (tasks.hasOwnProperty(key)) {
+          if (key === column) {
+            updatedTasks[key] = tasks[key].concat(task);
+          } else {
+            updatedTasks[key] = tasks[key].filter((t) => t.id !== taskId);
+          }
+        }
+      }
+      setTasks(updatedTasks);
     }
   };
 
@@ -77,7 +107,9 @@ const Board = () => {
         tasks,
         createdAt: new Date(),
       });
+
       alert("Board saved successfully!");
+      navigate("/"); // Po zapisaniu przekierowuje do strony głównej
     } catch (error) {
       console.error("Error saving board:", error);
       alert("Error saving board: " + error.message);
