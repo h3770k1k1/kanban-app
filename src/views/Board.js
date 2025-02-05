@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Grid, useTheme,  Box, TextField } from '@mui/material';
+import { Container, Grid, useTheme, Box } from '@mui/material';
 import TaskColumnWrapper from '../components/TaskColumnWrapper';
 import { db } from "../lib/FirebaseConfig";
-import { doc, getDoc, } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import SaveBoardButton from "../components/SaveBoardButton";
 import columnsConfig from '../lib/columnsConfig';
+import BoardNameField from '../components/BoardNameField';
+
+
+import { handleDropTask, handleAddTask, handleCloseTask, handleTaskDescriptionChange } from '../scripts/taskHandlers';
 
 const Board = () => {
   const navigate = useNavigate();
@@ -15,53 +19,12 @@ const Board = () => {
   const { boardId } = useParams();
 
   const [boardName, setBoardName] = useState("My Board");
+
   const initialTasks = {};
   for (let key in columnsConfig) {
     initialTasks[key] = [];
   }
   const [tasks, setTasks] = useState(initialTasks);
-
-  const handleAddTask = (column) => {
-    const newTask = { id: Math.random(), description: "" };
-    const updatedTasks = { ...tasks };
-    updatedTasks[column] = [...tasks[column], newTask];
-    setTasks(updatedTasks);
-  };
-
-  const handleCloseTask = (column, taskId) => {
-    const updatedTasks = { ...tasks };
-    updatedTasks[column] = tasks[column].filter((task) => task.id !== taskId);
-    setTasks(updatedTasks);
-  };
-
-  const handleDropTask = (taskId, column) => {
-    let task = null;
-    Object.keys(tasks).forEach((key) => {
-      const foundTask = tasks[key].find((task) => task.id === taskId);
-      if (foundTask) {
-        task = foundTask;
-      }
-    });
-
-    if (task) {
-      const updatedTasks = { ...tasks };
-      Object.keys(updatedTasks).forEach((key) => {
-        updatedTasks[key] = updatedTasks[key].filter((t) => t.id !== taskId);
-      });
-
-      updatedTasks[column] = [...updatedTasks[column], task];
-      setTasks(updatedTasks);
-    }
-  };
-
-  const handleTaskDescriptionChange = (column, taskId, newDescription) => {
-    const updatedTasks = { ...tasks };
-    updatedTasks[column] = tasks[column].map((task) =>
-        task.id === taskId ? { ...task, description: newDescription } : task
-    );
-    setTasks(updatedTasks);
-  };
-
 
   useEffect(() => {
     const fetchBoard = async () => {
@@ -74,8 +37,15 @@ const Board = () => {
 
       if (boardSnap.exists()) {
         const boardData = boardSnap.data();
+
         setBoardName(boardData.name || "My Board");
-        setTasks(boardData.tasks || { backlog: [], todo: [], inProgress: [], done: [] });
+
+        let initialTasks = {};
+        for (let key in columnsConfig) {
+          initialTasks[key] = boardData.tasks && boardData.tasks[key] ? boardData.tasks[key] : [];
+        }
+
+        setTasks(initialTasks);
       } else {
         console.error("Board not found");
       }
@@ -84,16 +54,12 @@ const Board = () => {
     fetchBoard();
   }, [boardId]);
 
-
   return (
       <Container sx={{ width: '70%', height: '100%', padding: '20px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-start', marginTop: '0.5vh' }}>
-          <TextField
-              id="board-name"
-              value={boardName}
-              onChange={(e) => setBoardName(e.target.value)}
-              helperText="Name your board"
-              variant="standard"
+          <BoardNameField
+              boardName={boardName}
+              setBoardName={setBoardName}
           />
         </Box>
         <Grid container spacing={3} sx={{ marginTop: '20px' }}>
@@ -102,12 +68,12 @@ const Board = () => {
                   key={columnKey}
                   title={columnsConfig[columnKey]?.name || columnKey}
                   tasks={tasks[columnKey]}
-                  onAddTask={() => handleAddTask(columnKey)}
-                  onCloseTask={(taskId) => handleCloseTask(columnKey, taskId)}
-                  onDropTask={handleDropTask}
+                  onAddTask={() => handleAddTask(tasks, setTasks, columnKey)}
+                  onCloseTask={(taskId) => handleCloseTask(tasks, setTasks, columnKey, taskId)}
+                  onDropTask={(taskId) => handleDropTask(taskId, columnKey, tasks, setTasks)}
                   columnKey={columnKey}
                   onTaskDescriptionChange={(taskId, newDescription) =>
-                      handleTaskDescriptionChange(columnKey, taskId, newDescription)
+                      handleTaskDescriptionChange(tasks, setTasks, columnKey, taskId, newDescription)
                   }
               />
           ))}
