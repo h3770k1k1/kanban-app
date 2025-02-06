@@ -1,33 +1,20 @@
 import React from 'react';
 import { Button, IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
+import { buttonStyle, iconButtonStyle } from '../styles/boardButtonStyles';
 
-const BoardButton = ({ board, onOpenBoard, onDeleteBoard }) => {
+const BoardButton = ({ board, onOpenBoard, onDeleteBoard, backgroundColor }) => {
     return (
         <Button
             variant="contained"
-            sx={{
-                borderRadius: '16px',
-                backgroundColor: '#008080',
-                color: 'white',
-                position: 'relative',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'space-between',
-                padding: '12px 16px',
-            }}
+            sx={{ ...buttonStyle, backgroundColor: backgroundColor }}
             onClick={() => onOpenBoard(board)}
         >
             {board.name}
 
             <IconButton
                 size="small"
-                sx={{
-                    position: 'absolute',
-                    top: '4px',
-                    right: '4px',
-                    color: 'white',
-                }}
+                sx={iconButtonStyle}
                 onClick={(e) => {
                     e.stopPropagation();
                     onDeleteBoard(board.id);

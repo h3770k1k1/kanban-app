@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Box, Typography, useTheme } from "@mui/material";
-import { useNavigate } from "react-router-dom"; // ✅ Dodano import
+import { useNavigate } from "react-router-dom";
 import NewBoardButton from "../components/NewBoardButton";
 import BoardButton from "../components/BoardButton";
 import { useAuth } from "../context/AuthContext";
@@ -9,7 +9,7 @@ import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/fire
 
 const UsersBoards = ({ onOpenBoard }) => {
     const theme = useTheme();
-    const navigate = useNavigate(); // ✅ Dodano useNavigate()
+    const navigate = useNavigate();
     const { user } = useAuth();
     const [boards, setBoards] = useState([]);
 
@@ -50,9 +50,10 @@ const UsersBoards = ({ onOpenBoard }) => {
                     <BoardButton
                         key={board.id}
                         board={board}
+                        backgroundColor={theme.palette.darkGreen.main}
                         onOpenBoard={() => {
-                            navigate(`/board/${board.id}`); // ✅ Teraz działa poprawnie!
-                            onOpenBoard(board); // Opcjonalnie, jeśli chcesz ustawić wybraną tablicę w stanie
+                            navigate(`/board/${board.id}`);
+                            onOpenBoard(board);
                         }}
                         onDeleteBoard={handleDeleteBoard}
                     />
