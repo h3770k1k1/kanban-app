@@ -1,66 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Container, Grid, useTheme, Box } from '@mui/material';
 import TaskColumnWrapper from '../components/TaskColumnWrapper';
-import { db } from "../lib/FirebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SaveBoardButton from "../components/SaveBoardButton";
-import columnsConfig from '../lib/columnsConfig';
 import BoardNameField from '../components/BoardNameField';
-
-
+import useBoard from '../scripts/useBoard';
 import { handleDropTask, handleAddTask, handleCloseTask, handleTaskDescriptionChange } from '../scripts/taskHandlers';
+import columnsConfig from '../lib/columnsConfig';
 
 const Board = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const { user } = useAuth();
-  const { boardId } = useParams();
-
-  const [boardName, setBoardName] = useState("My Board");
-
-  const initialTasks = {};
-  for (let key in columnsConfig) {
-    initialTasks[key] = [];
-  }
-  const [tasks, setTasks] = useState(initialTasks);
-
-  useEffect(() => {
-    const fetchBoard = async () => {
-      if (!boardId || boardId === "new") {
-        return;
-      }
-
-      const boardRef = doc(db, "boards", boardId);
-      const boardSnap = await getDoc(boardRef);
-
-      if (boardSnap.exists()) {
-        const boardData = boardSnap.data();
-
-        setBoardName(boardData.name || "My Board");
-
-        let initialTasks = {};
-        for (let key in columnsConfig) {
-          initialTasks[key] = boardData.tasks && boardData.tasks[key] ? boardData.tasks[key] : [];
-        }
-
-        setTasks(initialTasks);
-      } else {
-        console.error("Board not found");
-      }
-    };
-
-    fetchBoard();
-  }, [boardId]);
+  const { boardId, boardName, setBoardName, tasks, setTasks } = useBoard();  // Include boardId
 
   return (
       <Container sx={{ width: '70%', height: '100%', padding: '20px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-start', marginTop: '0.5vh' }}>
-          <BoardNameField
-              boardName={boardName}
-              setBoardName={setBoardName}
-          />
+          <BoardNameField boardName={boardName} setBoardName={setBoardName} />
         </Box>
         <Grid container spacing={3} sx={{ marginTop: '20px' }}>
           {Object.keys(tasks).map((columnKey) => (
@@ -80,7 +38,7 @@ const Board = () => {
         </Grid>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <SaveBoardButton
-              boardId={boardId}
+              boardId={boardId}  // Now boardId is available here
               boardName={boardName}
               tasks={tasks}
               user={user}

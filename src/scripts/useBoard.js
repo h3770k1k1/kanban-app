@@ -1,15 +1,19 @@
-import { useEffect, useState } from 'react';
-import { db } from "../lib/FirebaseConfig";
+import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import columnsConfig from '../lib/columnsConfig';
+import { db } from "../lib/FirebaseConfig";
+import { useParams } from "react-router-dom";
+import columnsConfig from "../lib/columnsConfig";
 
-const useBoard = (boardId) => {
+const useBoard = () => {
+    const { boardId } = useParams();  // Keep boardId here
     const [boardName, setBoardName] = useState("My Board");
-    const initialTasks = {};
-    for (let key in columnsConfig) {
-        initialTasks[key] = [];
-    }
-    const [tasks, setTasks] = useState(initialTasks);
+    const [tasks, setTasks] = useState(() => {
+        const initialTasks = {};
+        for (let key in columnsConfig) {
+            initialTasks[key] = [];
+        }
+        return initialTasks;
+    });
 
     useEffect(() => {
         const fetchBoard = async () => {
@@ -24,12 +28,12 @@ const useBoard = (boardId) => {
                 const boardData = boardSnap.data();
                 setBoardName(boardData.name || "My Board");
 
-                let initialTasks = {};
+                const loadedTasks = {};
                 for (let key in columnsConfig) {
-                    initialTasks[key] = boardData.tasks && boardData.tasks[key] ? boardData.tasks[key] : [];
+                    loadedTasks[key] = boardData.tasks && boardData.tasks[key] ? boardData.tasks[key] : [];
                 }
 
-                setTasks(initialTasks);
+                setTasks(loadedTasks);
             } else {
                 console.error("Board not found");
             }
@@ -38,7 +42,7 @@ const useBoard = (boardId) => {
         fetchBoard();
     }, [boardId]);
 
-    return { boardName, setBoardName, tasks, setTasks };
+    return { boardId, boardName, setBoardName, tasks, setTasks };
 };
 
 export default useBoard;
