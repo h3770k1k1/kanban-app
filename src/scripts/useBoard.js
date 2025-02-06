@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import columnsConfig from "../lib/columnsConfig";
 
 const useBoard = () => {
-    const { boardId } = useParams();  // Keep boardId here
+    const { boardId } = useParams();
     const [boardName, setBoardName] = useState("My Board");
     const [tasks, setTasks] = useState(() => {
         const initialTasks = {};
