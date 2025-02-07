@@ -20,7 +20,7 @@ const BoardButton = ({ board, onOpenBoard, onDeleteBoard, backgroundColor }) => 
                     onDeleteBoard(board.id);
                 }}
             >
-                <ClearIcon fontSize="small" />
+                <ClearIcon fontSize="medium" />
             </IconButton>
         </Button>
     );

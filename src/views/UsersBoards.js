@@ -40,12 +40,21 @@ const UsersBoards = ({ onOpenBoard }) => {
     };
 
     return user ? (
-        <Container sx={{ width: "80%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Box sx={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: "20px" }}>
-                <NewBoardButton buttonColor={theme.palette.darkGreen.main} buttonText="Create new board" />
-            </Box>
+        <Container sx={{ width: "80%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent:"center",}}>
+            <Box
+                sx={{
+                    marginTop:'5vh',
+                    width: "100%",
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, 1fr)",
+                    gap: "5vh",
+                }}
+            >
+                <NewBoardButton
+                    buttonColor={theme.palette.darkGreen.main}
+                    buttonText="Create new board"
+                />
 
-            <Box sx={{ width: "100%", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "5vh", paddingLeft: "5vw" }}>
                 {boards.map((board) => (
                     <BoardButton
                         key={board.id}

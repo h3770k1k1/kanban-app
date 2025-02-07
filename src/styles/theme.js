@@ -9,6 +9,7 @@ const theme = createTheme({
     teal: { main: '#669E9C' },
     darkGreen: { main: '#1B4F50' },
   },
+
 });
 
 export default theme;

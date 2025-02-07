@@ -3,11 +3,14 @@ export const buttonStyle = {
     color: 'white',
     position: 'relative',
     display: 'flex',
+    width: '100%',
+    height: '10vh',
+fontSize: '16px',
 };
 
 export const iconButtonStyle = {
     position: 'absolute',
-    top: '4px',
-    right: '4px',
+    top: '7%',
+    right: '2%',
     color: 'white',
 };
