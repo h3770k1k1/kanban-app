@@ -1,23 +1,41 @@
-import React from 'react';
-import { Box, Button, Container, TextField, Typography, useTheme } from '@mui/material';
+import React, { useState } from "react";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { Box, Button, Container, TextField, Typography, Alert, useTheme} from "@mui/material";
 
 const ForgotPassword = () => {
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
+    const auth = getAuth();
     const theme = useTheme();
+
+    const handleResetPassword = async (e) => {
+        e.preventDefault();
+        setMessage("");
+        setError("");
+
+        const actionCodeSettings = {
+            url: "http://localhost:3000/reset-password",
+            handleCodeInApp: true,
+        };
+
+        try {
+            await sendPasswordResetEmail(auth, email, actionCodeSettings);
+            setMessage("We have sent you an email to reset your password.");
+        } catch (err) {
+            setError("Error: " + err.message);
+        }
+    };
 
     return (
         <Container component="main" maxWidth="xs">
-            <Box
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-            >
-                <Typography component="h1" variant="h5" sx={{textAlign:'center'}}>
-                Enter your email to reset your password
+            <Box sx={{ marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <Typography component="h1" variant="h5" sx={{ textAlign: "center" }}>
+                    Enter your email to reset your password
                 </Typography>
-                <Box component="form" noValidate sx={{ mt: 1 }}>
+                {error && <Alert severity="error">{error}</Alert>}
+                {message && <Alert severity="success">{message}</Alert>}
+                <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleResetPassword}>
                     <TextField
                         margin="normal"
                         required
@@ -26,15 +44,11 @@ const ForgotPassword = () => {
                         label="Email Address"
                         name="email"
                         autoComplete="email"
-                        color={theme.palette.teal.main}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         autoFocus
                     />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.darkGreen.main }}
-                    >
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2,  backgroundColor: theme.palette.darkGreen.main, }}>
                         Reset Password
                     </Button>
                 </Box>
