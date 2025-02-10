@@ -85,19 +85,19 @@ const SignIn = () => {
                         variant="contained"
                         sx={{
                             mt: 3, mb: 2,
-                            backgroundColor: theme.palette.darkGreen.main,
+                            backgroundColor: theme.palette.customColors.darkYellow,
                         }}
                     >
                         Sign In
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="/forgot-password" variant="body2" sx={{ color: theme.palette.teal.main }}>
+                            <Link href="/forgot-password" variant="body2" sx={{ color: theme.palette.customColors.brown }}>
                                 Forgot password?
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="/sign-up" variant="body2" sx={{ color: theme.palette.teal.main }}>
+                            <Link href="/sign-up" variant="body2" sx={{ color: theme.palette.customColors.brown }}>
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>

@@ -70,7 +70,7 @@ const Header = () => {
                     <Button
                         sx={{
                             backgroundColor: "none",
-                            color: theme.palette.darkGreen.main,
+                            color: theme.palette.customColors.brown,
                             marginBottom: "1vh",
                             marginRight: "1vh",
                         }}

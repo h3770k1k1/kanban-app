@@ -1,16 +1,18 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
-    lightGreen: { main: '#99C0BF' },
-    beige: { main: '#F1E5D7' },
-    lightBlue: { main: '#A7D0D7' },
-    grey: { main: '#798686' },
-    teal: { main: '#669E9C' },
-    darkGreen: { main: '#1B4F50' },
+    primary: { main: '#E59B34' },
+    background: {
+      default: '#E59B34',
+    },
+    customColors: {
+      lightYellow: '#E8A84E',
+      darkYellow: '#B3742B',
+      white: '#F8F9FD',
+      brown: '#2B1802',
+    },
   },
-
 });
 
 export default theme;
-export { ThemeProvider };

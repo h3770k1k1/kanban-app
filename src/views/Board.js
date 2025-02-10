@@ -38,7 +38,7 @@ const Board = () => {
         </Grid>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <SaveBoardButton
-              boardId={boardId}  // Now boardId is available here
+              boardId={boardId}
               boardName={boardName}
               tasks={tasks}
               user={user}

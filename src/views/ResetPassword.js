@@ -59,7 +59,7 @@ const ResetPassword = () => {
                         onChange={(e) => setNewPassword(e.target.value)}
                         autoFocus
                     />
-                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2,  backgroundColor: theme.palette.darkGreen.main, }}>
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2,  backgroundColor: theme.palette.customColors.darkYellow, }}>
                         Change Password
                     </Button>
                 </Box>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Routes, Route, useNavigate, useParams } from "react-router-dom";
+import { Routes, Route, useNavigate} from "react-router-dom";
 import UsersBoards from "../views/UsersBoards";
 import Board from "../views/Board";
 import Header from "../components/Header";
@@ -14,6 +14,7 @@ import ErrorBoundary from "../scripts/ErrorBoundary";
 import { AuthProvider } from "./AuthContext";
 
 const ContextProviders = () => {
+
     const navigate = useNavigate();
     const [selectedBoard] = useState(null);
 
@@ -21,6 +22,7 @@ const ContextProviders = () => {
         navigate(`/board/${board.id}`);
     };
     return (
+
         <Loading timeout={5000}>
             <AuthProvider>
                 <Header />
@@ -42,7 +44,6 @@ const ContextProviders = () => {
 
 
                         />
-
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </ErrorBoundary>

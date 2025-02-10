@@ -76,7 +76,7 @@ const DeleteAccount = () => {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.darkGreen.main }}
+                        sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.customColors.darkYellow }}
                         disabled={loading}
                     >
                         {loading ? <CircularProgress size={24} color="inherit" /> : 'Delete Account'}

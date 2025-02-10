@@ -42,7 +42,7 @@ const Loading = ({ timeout = 5000, children }) => {
           size={80}
           sx={{
             animation: 'spin 1.5s infinite linear',
-            color: theme.palette.darkGreen.main,
+            color: theme.palette.customColors.darkYellow,
           }}
         />
         <Typography
@@ -50,7 +50,7 @@ const Loading = ({ timeout = 5000, children }) => {
             marginTop: '5vh',
             fontSize: '1.5rem',
             fontWeight: '500',
-            color: theme.palette.darkGreen.main,
+            color:theme.palette.customColors.darkYellow,
           }}
         >
           Loading...

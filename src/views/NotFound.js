@@ -30,7 +30,7 @@ const NotFound = ({ isError = false }) => {
                     variant="contained"
                     onClick={goHome}
                     sx={{
-                        backgroundColor: theme.palette.darkGreen.main,
+                        backgroundColor: theme.palette.customColors.darkYellow,
                     }}
                 >
                     Go Back to Home

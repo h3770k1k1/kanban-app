@@ -123,7 +123,7 @@ const SignUp = () => {
                     </Button>
                     <Grid container>
                         <Grid item>
-                            <Link sx={{ color: theme.palette.darkGreen.main }} href="/sign-in" variant="body2">
+                            <Link sx={{ color: theme.palette.customColors.brown }} href="/sign-in" variant="body2">
                                 {"Already have an account? Sign In"}
                             </Link>
                         </Grid>
