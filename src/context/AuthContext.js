@@ -8,8 +8,8 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const unsubscribe = accountManager.observeUser(setUser);
-        return () => unsubscribe();
+        const stopListening = accountManager.observeUser(setUser);
+        return () => stopListening();
     }, []);
 
     return (
