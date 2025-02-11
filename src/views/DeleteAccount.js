@@ -3,6 +3,9 @@ import { Box, Button, Container, TextField, Typography, Alert, CircularProgress,
 import { AccountManager } from "../lib/AccountManager";
 import DeleteAccountInfo from "../components/DeleteAccountInfo";
 import { useAuth } from "../context/AuthContext";
+import textFieldStyles from '../styles/textFieldStyles';
+import submitButtonStyles from '../styles/submitButtonStyles';
+import typographyStyles from '../styles/typographyStyles';
 
 const DeleteAccount = () => {
     const theme = useTheme();
@@ -55,12 +58,13 @@ const DeleteAccount = () => {
                     alignItems: 'center',
                 }}
             >
-                <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
+                <Typography component="h1" variant="h5" sx={typographyStyles(theme)}>
                     To delete your account, please enter your password
                 </Typography>
                 {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
                 <Box component="form" noValidate onSubmit={handleDeleteAccount} sx={{ mt: 1 }}>
                     <TextField
+                        sx={textFieldStyles(theme)}
                         margin="normal"
                         required
                         fullWidth
@@ -76,7 +80,7 @@ const DeleteAccount = () => {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 3, mb: 2, backgroundColor: theme.palette.customColors.darkYellow }}
+                        sx={submitButtonStyles(theme)}
                         disabled={loading}
                     >
                         {loading ? <CircularProgress size={24} color="inherit" /> : 'Delete Account'}

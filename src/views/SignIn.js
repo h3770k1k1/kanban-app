@@ -15,6 +15,9 @@ import { useAuth } from '../context/AuthContext';
 import { AccountManager } from '../lib/AccountManager';
 import SignInInfo from '../components/SignInInfo';
 import textFieldStyles from '../styles/textFieldStyles';
+import submitButtonStyles from '../styles/submitButtonStyles';
+import typographyStyles from '../styles/typographyStyles';
+
 const SignIn = () => {
     const theme = useTheme();
     const navigate = useNavigate();
@@ -49,7 +52,7 @@ const SignIn = () => {
                     alignItems: 'center',
                 }}
             >
-                <Typography component="h1" variant="h5" color={theme.palette.customColors.white}>
+                <Typography component="h1" variant="h5" sx={typographyStyles(theme)}>
                     Sign In
                 </Typography>
                 {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
@@ -83,11 +86,7 @@ const SignIn = () => {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{
-                            mt: 3, mb: 2,
-                            backgroundColor: theme.palette.customColors.darkYellow,
-                            color: theme.palette.customColors.white,
-                        }}
+                        sx={submitButtonStyles(theme)}
                     >
                         Sign In
                     </Button>

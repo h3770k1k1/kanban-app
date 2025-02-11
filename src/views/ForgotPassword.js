@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import { Box, Button, Container, TextField, Typography, Alert, useTheme} from "@mui/material";
+import { Box, Button, Container, TextField, Typography, Alert, useTheme } from "@mui/material";
+import textFieldStyles from '../styles/textFieldStyles';
+import submitButtonStyles from '../styles/submitButtonStyles';
+import typographyStyles from '../styles/typographyStyles';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState("");
@@ -30,13 +33,14 @@ const ForgotPassword = () => {
     return (
         <Container component="main" maxWidth="xs">
             <Box sx={{ marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <Typography component="h1" variant="h5" sx={{ textAlign: "center" }}>
+                <Typography component="h1" variant="h5" sx={typographyStyles(theme)}>
                     Enter your email to reset your password
                 </Typography>
                 {error && <Alert severity="error">{error}</Alert>}
                 {message && <Alert severity="success">{message}</Alert>}
                 <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleResetPassword}>
                     <TextField
+                        sx={textFieldStyles(theme)}
                         margin="normal"
                         required
                         fullWidth
@@ -46,9 +50,8 @@ const ForgotPassword = () => {
                         autoComplete="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        autoFocus
                     />
-                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2,  backgroundColor: theme.palette.customColors.darkYellow, }}>
+                    <Button type="submit" fullWidth variant="contained" sx={submitButtonStyles(theme)}>
                         Reset Password
                     </Button>
                 </Box>
