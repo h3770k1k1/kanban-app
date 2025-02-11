@@ -4,16 +4,18 @@ import { db } from "../lib/FirebaseConfig";
 import { useParams } from "react-router-dom";
 import columnsConfig from "../lib/columnsConfig";
 
+const initializeTasks = () => {
+    const initialTasks = {};
+    for (let key in columnsConfig) {
+        initialTasks[key] = [];
+    }
+    return initialTasks;
+};
+
 const useBoard = () => {
     const { boardId } = useParams();
     const [boardName, setBoardName] = useState("My Board");
-    const [tasks, setTasks] = useState(() => {
-        const initialTasks = {};
-        for (let key in columnsConfig) {
-            initialTasks[key] = [];
-        }
-        return initialTasks;
-    });
+    const [tasks, setTasks] = useState(initializeTasks);
 
     useEffect(() => {
         const fetchBoard = async () => {
