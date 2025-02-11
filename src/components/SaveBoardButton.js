@@ -1,10 +1,12 @@
 import React from 'react';
 import { Button, Box } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import { db } from "../lib/FirebaseConfig";
-import { doc, updateDoc, addDoc, collection } from "firebase/firestore";
+import { useNavigate } from 'react-router-dom'; // If you're using react-router for navigation
+import createBoard from '../scripts/createBoard';
+import updateBoard from '../scripts/updateBoard';
 
-const SaveBoardButton = ({ boardId, boardName, tasks, user, navigate, theme }) => {
+const SaveBoardButton = ({ boardId, boardName, tasks, user, theme }) => {
+    const navigate = useNavigate();
 
     const handleSaveBoard = async () => {
         if (!user) {
@@ -13,14 +15,9 @@ const SaveBoardButton = ({ boardId, boardName, tasks, user, navigate, theme }) =
 
         try {
             if (boardId && boardId !== "new") {
-                await updateDoc(doc(db, "boards", boardId), { name: boardName, tasks });
+                await updateBoard(boardId, boardName, tasks);
             } else {
-                await addDoc(collection(db, "boards"), {
-                    userId: user.uid,
-                    name: boardName,
-                    tasks,
-                    createdAt: new Date(),
-                });
+                await createBoard(user, boardName, tasks);
             }
 
             navigate("/");
