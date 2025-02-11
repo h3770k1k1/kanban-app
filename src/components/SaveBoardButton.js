@@ -31,8 +31,8 @@ const SaveBoardButton = ({ boardId, boardName, tasks, user, navigate, theme }) =
     };
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button onClick={handleSaveBoard} sx={{ backgroundColor: theme.palette.darkGreen.main, color: 'white' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
+            <Button onClick={handleSaveBoard} sx={{ backgroundColor: theme.palette.customColors.darkYellow, color: 'white', fontSize: '18px',  paddingLeft: '0.5em', paddingRight: '0.5em' }}>
                 <CheckIcon sx={{ marginRight: '0.5rem' }} />
                 SAVE BOARD
             </Button>

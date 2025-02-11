@@ -20,7 +20,7 @@ const Board = () => {
         <Box sx={{ display: 'flex', justifyContent: 'flex-start', marginTop: '0.5vh' }}>
           <BoardNameField boardName={boardName} setBoardName={setBoardName} />
         </Box>
-        <Grid container spacing={3} sx={{ marginTop: '20px' }}>
+        <Grid container spacing={3} sx={{ marginTop: '1vh' }}>
           {Object.keys(tasks).map((columnKey) => (
               <TaskColumnWrapper
                   key={columnKey}
@@ -36,7 +36,7 @@ const Board = () => {
               />
           ))}
         </Grid>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2vh' }}>
           <SaveBoardButton
               boardId={boardId}
               boardName={boardName}

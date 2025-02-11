@@ -13,6 +13,8 @@ const UsersBoards = ({ onOpenBoard }) => {
     const { user } = useAuth();
     const [boards, setBoards] = useState([]);
 
+    const boardColors = Object.values(theme.palette.boardButtonsColors);
+
     useEffect(() => {
         const fetchBoards = async () => {
             if (!user) return;
@@ -40,7 +42,7 @@ const UsersBoards = ({ onOpenBoard }) => {
     };
 
     return user ? (
-        <Container sx={{ width: "80%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent:"center",  }}>
+        <Container sx={{ width: "80%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent:"center" }}>
             <Box
                 sx={{
                     marginTop:'5vh',
@@ -55,11 +57,11 @@ const UsersBoards = ({ onOpenBoard }) => {
                     buttonText="Create new board"
                 />
 
-                {boards.map((board) => (
+                {boards.map((board, index) => (
                     <BoardButton
                         key={board.id}
                         board={board}
-                        backgroundColor={theme.palette.customColors.darkYellow}
+                        backgroundColor={boardColors[index % boardColors.length]}  // Ustawienie koloru cyklicznie
                         onOpenBoard={() => {
                             navigate(`/board/${board.id}`);
                             onOpenBoard(board);
@@ -70,7 +72,7 @@ const UsersBoards = ({ onOpenBoard }) => {
             </Box>
         </Container>
     ) : (
-        <Container sx={{ width: "100%", height: "80vh", display: "flex", justifyContent: "center", alignItems: "center",  }}>
+        <Container sx={{ width: "100%", height: "80vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
             <Typography variant="h5" color="textSecondary" align="center">
                 Please log in to view your boards.
             </Typography>

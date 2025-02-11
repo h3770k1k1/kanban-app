@@ -13,6 +13,12 @@ const BoardNameField = ({ boardName, setBoardName }) => {
             onChange={handleChange}
             helperText="Name your board"
             variant="standard"
+            InputProps={{
+                style: { fontSize: '18px' },
+            }}
+            InputLabelProps={{
+                style: { fontSize: '18px' },
+            }}
         />
     );
 };
