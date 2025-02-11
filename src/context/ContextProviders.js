@@ -15,7 +15,6 @@ import { AuthProvider } from "./AuthContext";
 
 const ContextProviders = () => {
     const navigate = useNavigate();
-    const [selectedBoard] = useState(null);
 
     const handleOpenBoard = (board) => {
         navigate(`/board/${board.id}`);
@@ -38,7 +37,7 @@ const ContextProviders = () => {
                         <Route
                             path="/board/:boardId"
                             element=
-                                <Board board={selectedBoard} onClose={() => navigate("/")} />
+                                <Board onClose={() => navigate("/")} />
 
 
                         />
