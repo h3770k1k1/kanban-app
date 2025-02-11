@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import TaskColumn from './TaskColumn';
 import columnsConfig from '../lib/columnsConfig';
-import { handleDropTask, handleAddTask, handleCloseTask, handleTaskDescriptionChange } from '../scripts/taskHandlers';
+import { handleDropTask, handleAddTask, handleCloseTask, handleTaskDescriptionChange } from '../helpers/taskHandlers';
 
 const TaskColumnWrapper = ({ columnKey, tasks, setTasks }) => {
   const columnData = columnsConfig[columnKey] || { name: "Unknown", color: "#FFFFFF" };

@@ -2,8 +2,8 @@ import React from 'react';
 import { Button, Box } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import { useNavigate } from 'react-router-dom'; // If you're using react-router for navigation
-import createBoard from '../scripts/createBoard';
-import updateBoard from '../scripts/updateBoard';
+import createBoard from '../helpers/createBoard';
+import updateBoard from '../helpers/updateBoard';
 
 const SaveBoardButton = ({ boardId, boardName, tasks, user, theme }) => {
     const navigate = useNavigate();

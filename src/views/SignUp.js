@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { AccountManager } from "../lib/AccountManager";
-import { SignUpValidator } from '../scripts/validateSignUpForm';
+import { SignUpValidator } from '../helpers/validateSignUpForm';
 
 const SignUp = () => {
     const theme = useTheme();

@@ -10,7 +10,7 @@ import ResetPassword from "../views/ResetPassword";
 import DeleteAccount from "../views/DeleteAccount";
 import NotFound from "../views/NotFound";
 import Loading from "../views/Loading";
-import ErrorBoundary from "../scripts/ErrorBoundary";
+import ErrorBoundary from "../helpers/ErrorBoundary";
 import { AuthProvider } from "./AuthContext";
 
 const ContextProviders = () => {

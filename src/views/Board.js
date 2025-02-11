@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import SaveBoardButton from "../components/SaveBoardButton";
 import BoardNameField from '../components/BoardNameField';
-import useBoard from '../scripts/useBoard';
+import useBoard from '../helpers/useBoard';
 
 const Board = () => {
     const navigate = useNavigate();
