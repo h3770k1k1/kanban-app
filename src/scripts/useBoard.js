@@ -23,26 +23,45 @@ const useBoard = () => {
                 return;
             }
 
-            const boardRef = doc(db, "boards", boardId);
-            const boardSnap = await getDoc(boardRef);
-
-            if (boardSnap.exists()) {
-                const boardData = boardSnap.data();
-                setBoardName(boardData.name || "My Board");
-
-                const loadedTasks = {};
-                for (let key in columnsConfig) {
-                    loadedTasks[key] = boardData.tasks && boardData.tasks[key] ? boardData.tasks[key] : [];
+            try {
+                const boardData = await getBoardData(boardId);
+                if (boardData) {
+                    const loadedTasks = extractTasksFromBoard(boardData);
+                    setBoardState(boardData.name || "My Board", loadedTasks);
+                } else {
+                    console.error("Board not found");
                 }
-
-                setTasks(loadedTasks);
-            } else {
-                console.error("Board not found");
+            } catch (error) {
+                console.error("Error fetching board data:", error);
             }
         };
 
         fetchBoard();
     }, [boardId]);
+
+    const getBoardData = async (boardId) => {
+        const boardRef = doc(db, "boards", boardId);
+        const boardSnap = await getDoc(boardRef);
+
+        if (boardSnap.exists()) {
+            return boardSnap.data();
+        }
+        return null;
+    };
+
+    const extractTasksFromBoard = (boardData) => {
+        const loadedTasks = {};
+        for (let key in columnsConfig) {
+            loadedTasks[key] = boardData.tasks && boardData.tasks[key] ? boardData.tasks[key] : [];
+        }
+        return loadedTasks;
+    };
+
+    const setBoardState = (boardName, loadedTasks) => {
+        setBoardName(boardName);
+        setTasks(loadedTasks);
+    };
+
 
     return { boardId, boardName, setBoardName, tasks, setTasks };
 };
