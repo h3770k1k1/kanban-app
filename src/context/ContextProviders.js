@@ -39,7 +39,6 @@ const ContextProviders = () => {
                             element=
                                 <Board onClose={() => navigate("/")} />
 
-
                         />
 
                         <Route path="*" element={<NotFound />} />
