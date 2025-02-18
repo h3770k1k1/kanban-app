@@ -1,12 +1,10 @@
 import React from 'react';
 import { Button, Box } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import { useNavigate } from 'react-router-dom'; // If you're using react-router for navigation
-import createBoard from '../helpers/createBoard';
-import updateBoard from '../helpers/updateBoard';
+import { db } from "../lib/FirebaseConfig";
+import { doc, updateDoc, addDoc, collection } from "firebase/firestore";
 
-const SaveBoardButton = ({ boardId, boardName, tasks, user, theme }) => {
-    const navigate = useNavigate();
+const SaveBoardButton = ({ boardId, boardName, tasks, user, navigate, theme }) => {
 
     const handleSaveBoard = async () => {
         if (!user) {
@@ -15,9 +13,14 @@ const SaveBoardButton = ({ boardId, boardName, tasks, user, theme }) => {
 
         try {
             if (boardId && boardId !== "new") {
-                await updateBoard(boardId, boardName, tasks);
+                await updateDoc(doc(db, "boards", boardId), { name: boardName, tasks });
             } else {
-                await createBoard(user, boardName, tasks);
+                await addDoc(collection(db, "boards"), {
+                    userId: user.uid,
+                    name: boardName,
+                    tasks,
+                    createdAt: new Date(),
+                });
             }
 
             navigate("/");
@@ -28,8 +31,8 @@ const SaveBoardButton = ({ boardId, boardName, tasks, user, theme }) => {
     };
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button onClick={handleSaveBoard} sx={{ backgroundColor: theme.palette.darkGreen.main, color: 'white' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
+            <Button onClick={handleSaveBoard} sx={{ backgroundColor: theme.palette.customColors.darkYellow, color: 'white', fontSize: '18px',  paddingLeft: '0.5em', paddingRight: '0.5em' }}>
                 <CheckIcon sx={{ marginRight: '0.5rem' }} />
                 SAVE BOARD
             </Button>

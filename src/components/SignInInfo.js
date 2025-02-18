@@ -1,7 +1,8 @@
 import React from 'react';
-import { Container, Typography } from '@mui/material';
+import {Container, Typography, useTheme} from '@mui/material';
 
 const SignInInfo = () => {
+    const theme = useTheme();
     return (
         <Container
             sx={{
@@ -12,7 +13,7 @@ const SignInInfo = () => {
                 alignItems: 'center',
             }}
         >
-            <Typography variant="h5" color="textSecondary" align="center">
+            <Typography variant="h5" color= {theme.palette.customColors.darkYellow} align="center">
                 Signed In successfully
             </Typography>
         </Container>

@@ -13,6 +13,8 @@ const UsersBoards = ({ onOpenBoard }) => {
     const { user } = useAuth();
     const [boards, setBoards] = useState([]);
 
+    const boardColors = Object.values(theme.palette.boardButtonsColors);
+
     useEffect(() => {
         const fetchBoards = async () => {
             if (!user) return;
@@ -40,7 +42,7 @@ const UsersBoards = ({ onOpenBoard }) => {
     };
 
     return user ? (
-        <Container sx={{ width: "80%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent:"center",}}>
+        <Container sx={{ width: "80%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent:"center" }}>
             <Box
                 sx={{
                     marginTop:'5vh',
@@ -51,15 +53,15 @@ const UsersBoards = ({ onOpenBoard }) => {
                 }}
             >
                 <NewBoardButton
-                    buttonColor={theme.palette.darkGreen.main}
+                    buttonColor={theme.palette.customColors.darkYellow}
                     buttonText="Create new board"
                 />
 
-                {boards.map((board) => (
+                {boards.map((board, index) => (
                     <BoardButton
                         key={board.id}
                         board={board}
-                        backgroundColor={theme.palette.darkGreen.main}
+                        backgroundColor={boardColors[index % boardColors.length]}  // Ustawienie koloru cyklicznie
                         onOpenBoard={() => {
                             navigate(`/board/${board.id}`);
                             onOpenBoard(board);

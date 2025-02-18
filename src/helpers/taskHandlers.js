@@ -12,24 +12,13 @@ export const handleCloseTask = (tasks, setTasks, column, taskId) => {
 };
 
 export const handleTaskDescriptionChange = (tasks, setTasks, column, taskId, newDescription) => {
-    const updatedTasks = {};
-
-    for (let key in tasks) {
-        updatedTasks[key] = tasks[key];
-    }
-
+    const updatedTasks = Object.assign({}, tasks);
     updatedTasks[column] = tasks[column].map((task) => {
         if (task.id === taskId) {
-            const updatedTask = {};
-            for (let key in task) {
-                updatedTask[key] = task[key];
-            }
-            updatedTask.description = newDescription;
-            return updatedTask;
+            return Object.assign({}, task, { description: newDescription });
         }
         return task;
     });
-
     setTasks(updatedTasks);
 };
 

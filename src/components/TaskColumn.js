@@ -17,7 +17,7 @@ const TaskColumn = ({ title, tasks, onAddTask, bgColor, onCloseTask, onDropTask,
     <Box
       ref={dropRef}
       sx={{
-        backgroundColor: isOver ? theme.palette.teal.main : bgColor,
+        backgroundColor: isOver ?  theme.palette.customColors.white : bgColor,
         borderRadius: '8px',
         padding: '10px',
         height: '65vh',
@@ -43,7 +43,8 @@ const TaskColumn = ({ title, tasks, onAddTask, bgColor, onCloseTask, onDropTask,
         sx={{
           marginTop: '10px',
           width: '100%',
-          backgroundColor: theme.palette.darkGreen.main,
+          backgroundColor: theme.palette.customColors.darkYellow,
+            color:'white',
         }}
         onClick={onAddTask}
       >

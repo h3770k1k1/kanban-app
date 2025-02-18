@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Routes, Route, useNavigate, useParams } from "react-router-dom";
+import { Routes, Route, useNavigate} from "react-router-dom";
 import UsersBoards from "../views/UsersBoards";
 import Board from "../views/Board";
 import Header from "../components/Header";
@@ -10,16 +10,19 @@ import ResetPassword from "../views/ResetPassword";
 import DeleteAccount from "../views/DeleteAccount";
 import NotFound from "../views/NotFound";
 import Loading from "../views/Loading";
-import ErrorBoundary from "../helpers/ErrorBoundary";
+import ErrorBoundary from "../scripts/ErrorBoundary";
 import { AuthProvider } from "./AuthContext";
 
 const ContextProviders = () => {
+
     const navigate = useNavigate();
+    const [selectedBoard] = useState(null);
 
     const handleOpenBoard = (board) => {
         navigate(`/board/${board.id}`);
     };
     return (
+
         <Loading timeout={5000}>
             <AuthProvider>
                 <Header />
@@ -37,10 +40,10 @@ const ContextProviders = () => {
                         <Route
                             path="/board/:boardId"
                             element=
-                                <Board onClose={() => navigate("/")} />
+                                <Board board={selectedBoard} onClose={() => navigate("/")} />
+
 
                         />
-
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </ErrorBoundary>
