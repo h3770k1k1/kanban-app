@@ -39,7 +39,7 @@ const Header = () => {
                     justifyContent: "space-between",
                     alignItems: "flex-end",
                     borderBottom: 2,
-                    borderColor: "black",
+                    borderColor: theme.palette.customColors.darkYellow,
                 }}
             >
                 <Typography>
@@ -52,8 +52,8 @@ const Header = () => {
                         <Button
                             sx={{
                                 textTransform: "none",
-                                backgroundColor: "none",
-                                color: theme.palette.darkGreen.main,
+                                backgroundColor: theme.palette.customColors.lightYellow,
+                                color: theme.palette.customColors.white,
                                 marginBottom: "1vh",
                                 marginRight: "1vh",
                             }}
@@ -69,10 +69,14 @@ const Header = () => {
                 ) : (
                     <Button
                         sx={{
-                            backgroundColor: "none",
-                            color: theme.palette.darkGreen.main,
+                            backgroundColor: theme.palette.customColors.lightYellow,
+                            color: theme.palette.customColors.white,
+                            fontSize:'16px',
+                            paddingLeft: '1em',
+                            paddingRight: '1em',
                             marginBottom: "1vh",
                             marginRight: "1vh",
+
                         }}
                         onClick={handleSignIn}
                     >

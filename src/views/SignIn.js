@@ -14,6 +14,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { AccountManager } from '../lib/AccountManager';
 import SignInInfo from '../components/SignInInfo';
+import textFieldStyles from '../styles/textFieldStyles';
+import submitButtonStyles from '../styles/submitButtonStyles';
+import typographyStyles from '../styles/typographyStyles';
 
 const SignIn = () => {
     const theme = useTheme();
@@ -32,7 +35,7 @@ const SignIn = () => {
             await accountManager.signIn(email, password);
             navigate('/');
         } catch (err) {
-            console.error('Sign In Error:', err); // Debugging log
+            console.error('Sign In Error:', err);
             setError('Incorrect email or password');
         }
     };
@@ -49,12 +52,13 @@ const SignIn = () => {
                     alignItems: 'center',
                 }}
             >
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h5" sx={typographyStyles(theme)}>
                     Sign In
                 </Typography>
                 {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
                 <Box component="form" noValidate onSubmit={handleSignIn} sx={{ mt: 1 }}>
                     <TextField
+                        sx={textFieldStyles(theme)}
                         margin="normal"
                         required
                         fullWidth
@@ -62,11 +66,11 @@ const SignIn = () => {
                         label="Email Address"
                         name="email"
                         autoComplete="email"
-                        color="primary"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <TextField
+                        sx={textFieldStyles(theme)}
                         margin="normal"
                         required
                         fullWidth
@@ -75,7 +79,6 @@ const SignIn = () => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
-                        color="primary"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
@@ -83,21 +86,18 @@ const SignIn = () => {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{
-                            mt: 3, mb: 2,
-                            backgroundColor: theme.palette.darkGreen.main,
-                        }}
+                        sx={submitButtonStyles(theme)}
                     >
                         Sign In
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="/forgot-password" variant="body2" sx={{ color: theme.palette.teal.main }}>
+                            <Link href="/forgot-password" variant="body2" sx={{ color: theme.palette.customColors.brown }}>
                                 Forgot password?
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="/sign-up" variant="body2" sx={{ color: theme.palette.teal.main }}>
+                            <Link href="/sign-up" variant="body2" sx={{ color: theme.palette.customColors.brown }}>
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>

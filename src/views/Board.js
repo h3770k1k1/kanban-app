@@ -1,110 +1,52 @@
-import React, { useState } from 'react';
-import { Container, Grid, useTheme, Button,Box, TextField} from '@mui/material';
+import React from 'react';
+import { Container, Grid, useTheme, Box } from '@mui/material';
 import TaskColumnWrapper from '../components/TaskColumnWrapper';
-import CheckIcon from '@mui/icons-material/Check';
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import SaveBoardButton from "../components/SaveBoardButton";
+import BoardNameField from '../components/BoardNameField';
+import useBoard from '../scripts/useBoard';
+import { handleDropTask, handleAddTask, handleCloseTask, handleTaskDescriptionChange } from '../scripts/taskHandlers';
+import columnsConfig from '../lib/columnsConfig';
 
 const Board = () => {
-   const theme = useTheme();
-  const [tasks, setTasks] = useState({
-    backlog: [],
-    todo: [],
-    inProgress: [],
-    done: [],
-  });
-
-  const handleAddTask = (column) => {
-    const newTask = {
-      id: Math.random(),
-      description: '', 
-    };
-
-    setTasks((prevState) => {
-      const updatedTasks = Object.assign({}, prevState);
-      updatedTasks[column] = updatedTasks[column].slice();
-      updatedTasks[column].push(newTask);
-      return updatedTasks;
-    });
-  };
-
-  const handleTaskDescriptionChange = (column, taskId, newDescription) => {
-    setTasks((prevState) => {
-      const updatedTasks = Object.assign({}, prevState);
-      updatedTasks[column] = updatedTasks[column].map((task) => {
-        if (task.id === taskId) {
-          const updatedTask = Object.assign({}, task);
-          updatedTask.description = newDescription;
-          return updatedTask;
-        }
-        return task;
-      });
-      return updatedTasks;
-    });
-  };
-
-  const handleCloseTask = (column, taskId) => {
-    setTasks((prevState) => {
-      const updatedTasks = Object.assign({}, prevState);
-      updatedTasks[column] = updatedTasks[column].filter((task) => task.id !== taskId);
-      return updatedTasks;
-    });
-  };
-
-  const handleDropTask = (taskId, column) => {
-    let task = null;
-    Object.keys(tasks).forEach((key) => {
-      const foundTask = tasks[key].find((task) => task.id === taskId);
-      if (foundTask) {
-        task = foundTask;
-      }
-    });
-
-    if (task) {
-      setTasks((prevState) => {
-        const updatedTasks = Object.assign({}, prevState);
-        Object.keys(updatedTasks).forEach((key) => {
-          updatedTasks[key] = updatedTasks[key].filter((t) => t.id !== taskId);
-        });
-
-        updatedTasks[column] = updatedTasks[column].slice();
-        updatedTasks[column].push(task);
-        return updatedTasks;
-      });
-    }
-  };
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const { user } = useAuth();
+  const { boardId, boardName, setBoardName, tasks, setTasks } = useBoard();  // Include boardId
 
   return (
-    <Container sx={{ width: '70%', height: '100%', position: 'relative', padding: '20px' }}>
-       <Box sx={{width:'100%', display:'flex', justifyContent:'flex-start',marginTop:'0.5vh'}}> <TextField
-          id="standard-helperText"
-          label=""
-          defaultValue="My Board"
-          helperText="Name your board"
-          variant="standard"
-        /></Box>
-      <Grid container spacing={3} sx={{ marginTop: '20px' }}>
-        {Object.keys(tasks).map((columnKey) => (
-          <TaskColumnWrapper
-            key={columnKey}
-            title={columnKey.charAt(0).toUpperCase() + columnKey.slice(1)}
-            tasks={tasks[columnKey]}
-            onAddTask={() => handleAddTask(columnKey)}
-            onCloseTask={(taskId) => handleCloseTask(columnKey, taskId)}
-            onDropTask={handleDropTask}
-            columnKey={columnKey}
-            onTaskDescriptionChange={(taskId, newDescription) =>
-              handleTaskDescriptionChange(columnKey, taskId, newDescription)
-            }
+      <Container sx={{ width: '70%', height: '100%', padding: '20px' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-start', marginTop: '0.5vh' }}>
+          <BoardNameField boardName={boardName} setBoardName={setBoardName} />
+        </Box>
+        <Grid container spacing={3} sx={{ marginTop: '1vh' }}>
+          {Object.keys(tasks).map((columnKey) => (
+              <TaskColumnWrapper
+                  key={columnKey}
+                  title={columnsConfig[columnKey]?.name || columnKey}
+                  tasks={tasks[columnKey]}
+                  onAddTask={() => handleAddTask(tasks, setTasks, columnKey)}
+                  onCloseTask={(taskId) => handleCloseTask(tasks, setTasks, columnKey, taskId)}
+                  onDropTask={(taskId) => handleDropTask(taskId, columnKey, tasks, setTasks)}
+                  columnKey={columnKey}
+                  onTaskDescriptionChange={(taskId, newDescription) =>
+                      handleTaskDescriptionChange(tasks, setTasks, columnKey, taskId, newDescription)
+                  }
+              />
+          ))}
+        </Grid>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2vh' }}>
+          <SaveBoardButton
+              boardId={boardId}
+              boardName={boardName}
+              tasks={tasks}
+              user={user}
+              navigate={navigate}
+              theme={theme}
           />
-        ))}
-      </Grid>
-      <Box sx={{width:'100%', display:'flex', justifyContent:'flex-end',}}>
-      <Button sx={{ backgroundColor: theme.palette.darkGreen.main, marginTop:'3vh',
-    color: 'white',
-    fontSize: '20px',       
-    fontWeight: 'medium',     
-    padding: '12px 24px',   
-    borderRadius: '8px', justifyContent: 'space-between'}}><CheckIcon  sx={{ marginRight: '0.5rem' }}/>SAVE BOARD</Button>
-    </Box></Container>
+        </Box>
+      </Container>
   );
 };
 

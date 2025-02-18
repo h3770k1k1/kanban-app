@@ -14,6 +14,9 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { AccountManager } from "../lib/AccountManager";
 import { SignUpValidator } from '../scripts/validateSignUpForm';
+import textFieldStyles from '../styles/textFieldStyles';
+import submitButtonStyles from '../styles/submitButtonStyles';
+import typographyStyles from '../styles/typographyStyles';
 
 const SignUp = () => {
     const theme = useTheme();
@@ -41,7 +44,6 @@ const SignUp = () => {
         }
 
         try {
-            // Instantiate AccountManager here
             const accountManager = new AccountManager();
             await accountManager.signUp(email, password, email.split('@')[0]);
             setSuccess(true);
@@ -63,7 +65,7 @@ const SignUp = () => {
                     alignItems: 'center',
                 }}
             >
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h5" sx={typographyStyles(theme)}>
                     Sign Up
                 </Typography>
                 {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
@@ -74,6 +76,7 @@ const SignUp = () => {
                 )}
                 <Box component="form" noValidate onSubmit={handleSignUp} sx={{ mt: 1 }}>
                     <TextField
+                        sx={textFieldStyles(theme)}
                         margin="normal"
                         required
                         fullWidth
@@ -85,6 +88,7 @@ const SignUp = () => {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <TextField
+                        sx={textFieldStyles(theme)}
                         margin="normal"
                         required
                         fullWidth
@@ -97,6 +101,7 @@ const SignUp = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <TextField
+                        sx={textFieldStyles(theme)}
                         margin="normal"
                         required
                         fullWidth
@@ -112,18 +117,14 @@ const SignUp = () => {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{
-                            mt: 3,
-                            mb: 2,
-                            backgroundColor: theme.palette.darkGreen.main,
-                        }}
+                        sx={submitButtonStyles(theme)}
                         disabled={loading}
                     >
                         {loading ? <CircularProgress size={24} /> : 'Sign Up'}
                     </Button>
                     <Grid container>
                         <Grid item>
-                            <Link sx={{ color: theme.palette.darkGreen.main }} href="/sign-in" variant="body2">
+                            <Link sx={{ color: theme.palette.customColors.brown }} href="/sign-in" variant="body2">
                                 {"Already have an account? Sign In"}
                             </Link>
                         </Grid>
