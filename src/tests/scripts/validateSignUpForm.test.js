@@ -1,4 +1,4 @@
-import { SignUpValidator } from '../scripts/validateSignUpForm';
+import { SignUpValidator } from '../../helpers/validateSignUpForm';
 
 describe('SignUpValidator', () => {
     it('Should return true for correct email, password, and matching passwords', () => {

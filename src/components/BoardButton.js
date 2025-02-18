@@ -1,32 +1,29 @@
 import React from 'react';
-import { Button } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
-import './BoardButton.css';
+import { buttonStyle, iconButtonStyle } from '../styles/boardButtonStyles';
 
-const BoardButton = ({ buttonColor, buttonText }) => {
-  return (
-    <Button
-      className="board-button"
-      variant="contained"
-      sx={{
-        borderRadius:'16px',
-        backgroundColor: buttonColor,
-        position: 'relative', 
-      }}
-    >
-      {buttonText}
-      <ClearIcon
-        sx={{
-          position: 'absolute',
-          top: '0.5rem',
-          right: '0.5rem',
-          fontSize: '1.5rem',
-          color: 'white',
-          cursor: 'pointer',
-        }}
-      />
-    </Button>
-  );
+const BoardButton = ({ board, onOpenBoard, onDeleteBoard, backgroundColor }) => {
+    return (
+        <Button
+            variant="contained"
+            sx={{ ...buttonStyle, backgroundColor: backgroundColor }}
+            onClick={() => onOpenBoard(board)}
+        >
+            {board.name}
+
+            <IconButton
+                size="small"
+                sx={iconButtonStyle}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onDeleteBoard(board.id);
+                }}
+            >
+                <ClearIcon fontSize="medium" />
+            </IconButton>
+        </Button>
+    );
 };
 
 export default BoardButton;
