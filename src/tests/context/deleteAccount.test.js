@@ -1,7 +1,7 @@
-import { AccountManager } from "../lib/AccountManager";
-import { FirebaseAccountManager } from "../lib/FirebaseAccountManager";
+import { AccountManager } from "../../lib/AccountManager";
+import { FirebaseAccountManager } from "../../lib/FirebaseAccountManager";
 
-jest.mock("../lib/FirebaseAccountManager");
+jest.mock("../../lib/FirebaseAccountManager");
 
 describe("AccountManager", () => {
     let accountManager;

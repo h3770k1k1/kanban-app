@@ -5,8 +5,8 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import SaveBoardButton from "../components/SaveBoardButton";
 import BoardNameField from '../components/BoardNameField';
-import useBoard from '../scripts/useBoard';
-import { handleDropTask, handleAddTask, handleCloseTask, handleTaskDescriptionChange } from '../scripts/taskHandlers';
+import useBoard from '../helpers/useBoard';
+import { handleDropTask, handleAddTask, handleCloseTask, handleTaskDescriptionChange } from '../helpers/taskHandlers';
 import columnsConfig from '../lib/columnsConfig';
 
 const Board = () => {
