@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
-import { Card, CardContent, Typography, IconButton } from '@mui/material';
+import { Card, CardContent, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 
