@@ -37,4 +37,4 @@ jobs:
             --key-name mykey \
             --security-groups launch-wizard-2 \
             --count 1 \
-            --user-data "$(echo '${{ secrets.RUNAPP_SH }}')"
+            --user-data echo "${{ secrets.RUNAPP_SH }}"
