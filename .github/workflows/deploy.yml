@@ -20,8 +20,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1  # Frankfurt
 
-      - name: Create runapp.sh
-        run: echo "${{ secrets.RUNAPP_SH }}" > runapp.sh && chmod +x runapp.sh
+      - name: Create abc.sh
+        run: echo "${{ secrets.RUNAPP_SH }}" > abc.sh && chmod +x abc.sh
 
       - name: Launch EC2 instance
         run: |
@@ -31,4 +31,4 @@ jobs:
             --key-name mykey \
             --security-groups launch-wizard-2 \
             --count 1 \
-            --user-data file://runapp.sh
+            --user-data file://abc.sh
