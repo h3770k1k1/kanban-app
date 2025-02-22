@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Container, Box, Typography, Button } from "@mui/material";
-import logo from "./logo.svg";
 import theme from "../styles/theme";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -44,7 +43,6 @@ const Header = () => {
             >
                 <Typography>
                     <Box onClick={handleLogoClick} sx={{ cursor: 'pointer' }}>
-                        <img src={logo} alt="Logo" />
                     </Box>
                 </Typography>
                 {user ? (
