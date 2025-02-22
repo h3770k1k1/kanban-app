@@ -23,6 +23,9 @@ jobs:
       - name: Create abc.sh
         run: echo "${{ secrets.RUNAPP_SH }}" > abc.sh && chmod +x abc.sh
 
+      - name: Debug abc.sh content
+        run: cat abc.sh  # Debugging step to ensure abc.sh is correctly created
+
       - name: Launch EC2 instance
         run: |
           aws ec2 run-instances \
