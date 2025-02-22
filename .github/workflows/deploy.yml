@@ -20,11 +20,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1  # Frankfurt
 
-      - name: Create abc.sh
-        run: echo "${{ secrets.RUNAPP_SH }}" > abc.sh && chmod +x abc.sh
-
-      - name: Debug abc.sh content
-        run: cat abc.sh  # Debugging step to ensure abc.sh is correctly created
+      - name: Create and debug abc.sh
+        run: |
+          echo "${{ secrets.RUNAPP_SH }}" > abc.sh
+          cat abc.sh  # Output abc.sh content to debug
+          chmod +x abc.sh
 
       - name: Launch EC2 instance
         run: |
@@ -34,4 +34,4 @@ jobs:
             --key-name mykey \
             --security-groups launch-wizard-2 \
             --count 1 \
-            --user-data file://abc.sh
+            --user-data file://abc.sh  # If this fails, try the echo method
