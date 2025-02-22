@@ -4,7 +4,7 @@ import theme from "../styles/theme";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import DropdownMenu from "./DropdownMenu";
-
+import Logo from "./logo.svg";
 const Header = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
@@ -43,6 +43,7 @@ const Header = () => {
             >
                 <Typography>
                     <Box onClick={handleLogoClick} sx={{ cursor: 'pointer' }}>
+                        <Logo/>
                     </Box>
                 </Typography>
                 {user ? (
