@@ -28,5 +28,5 @@ jobs:
             --key-name mykey \
             --security-groups launch-wizard-2 \
             --count 1 \
-            --user-data "#!/bin/bash
-          echo '${{ secrets.RUNAPP_SH }}' | base64 --decode | bash"
+           --user-data "#!/bin/bash
+          echo '${{ secrets.RUNAPP_SH }}' | bash"
