@@ -42,8 +42,8 @@ const Header = () => {
                 }}
             >
                 <Typography>
-                    <Box onClick={handleLogoClick} sx={{ cursor: 'pointer' }}>
-                        <Logo/>
+                    <Box onClick={handleLogoClick} sx={{cursor: 'pointer'}}>
+                        <img src={Logo} alt="Logo"/>
                     </Box>
                 </Typography>
                 {user ? (
