@@ -22,9 +22,12 @@ jobs:
 
       - name: Create and debug abc.sh
         run: |
+          # Check if the RUNAPP_SH secret is correct
           echo "${{ secrets.RUNAPP_SH }}" > abc.sh
           cat abc.sh  # Output abc.sh content to debug
           chmod +x abc.sh
+          echo "abc.sh created and ready"
+          ls -l abc.sh  # Check the file permissions
 
       - name: Launch EC2 instance
         run: |
@@ -34,4 +37,4 @@ jobs:
             --key-name mykey \
             --security-groups launch-wizard-2 \
             --count 1 \
-            --user-data file://abc.sh  # If this fails, try the echo method
+            --user-data "$(echo '${{ secrets.RUNAPP_SH }}')"
