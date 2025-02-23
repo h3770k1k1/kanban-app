@@ -14,7 +14,21 @@ const NewBoardButton = ({ buttonColor, buttonText }) => {
     customStyle.backgroundColor = buttonColor;
 
     return (
-        <Button variant="contained" sx={customStyle} onClick={handleCreateBoard}>
+        <Button
+            variant="contained"
+            sx={{
+                ...customStyle,
+                width: "80%",
+                height: "15vh",
+                fontSize: "1.5rem",
+                '@media (max-width: 600px)': {
+                    width: "90%",
+                    height: "10vh",
+                    fontSize: "1rem",
+                },
+            }}
+            onClick={handleCreateBoard}
+        >
             {buttonText}
         </Button>
     );
