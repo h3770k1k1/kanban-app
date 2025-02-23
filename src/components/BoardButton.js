@@ -7,20 +7,35 @@ const BoardButton = ({ board, onOpenBoard, onDeleteBoard, backgroundColor }) => 
     return (
         <Button
             variant="contained"
-            sx={{ ...buttonStyle, backgroundColor: backgroundColor }}
+            sx={{
+                ...buttonStyle,
+                backgroundColor: backgroundColor,
+                width: "80%",
+                height: "15vh",
+                fontSize: "1.5rem",
+                '@media (max-width: 600px)': {
+                    width: "90%",
+                    height: "10vh",
+                    fontSize: "1rem",
+                },
+            }}
             onClick={() => onOpenBoard(board)}
         >
             {board.name}
 
             <IconButton
                 size="small"
-                sx={iconButtonStyle}
+                sx={{
+                    ...iconButtonStyle,
+                    fontSize: { xs: "1rem", sm: "1.5rem" },
+                    padding: { xs: "4px", sm: "8px" },
+                }}
                 onClick={(e) => {
                     e.stopPropagation();
                     onDeleteBoard(board.id);
                 }}
             >
-                <ClearIcon fontSize="medium" />
+                <ClearIcon fontSize="inherit" />
             </IconButton>
         </Button>
     );

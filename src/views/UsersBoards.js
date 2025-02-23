@@ -50,6 +50,10 @@ const UsersBoards = ({ onOpenBoard }) => {
                     display: "grid",
                     gridTemplateColumns: "repeat(3, 1fr)",
                     gap: "5vh",
+                    '@media (max-width: 600px)': {
+                        gridTemplateColumns: '1fr', // Na mobilkach przyciski w kolumnie
+                        gap: "2vh",
+                    },
                 }}
             >
                 <NewBoardButton
@@ -61,7 +65,7 @@ const UsersBoards = ({ onOpenBoard }) => {
                     <BoardButton
                         key={board.id}
                         board={board}
-                        backgroundColor={boardColors[index % boardColors.length]}  // Ustawienie koloru cyklicznie
+                        backgroundColor={boardColors[index % boardColors.length]}
                         onOpenBoard={() => {
                             navigate(`/board/${board.id}`);
                             onOpenBoard(board);
