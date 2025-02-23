@@ -23,7 +23,7 @@ jobs:
       - name: Launch EC2 instance
         run: |
           aws ec2 run-instances \
-            --image-id ami-07eef52105e8a2059 \
+            --image-id ami-06ee6255945a96aba \
             --instance-type t2.micro \
             --key-name mykey \
             --security-groups launch-wizard-2 \
