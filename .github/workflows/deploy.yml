@@ -42,23 +42,14 @@ jobs:
       - name: Launch EC2 instance
         id: launch_instance
         run: |
-          INSTANCE_ID=$(aws ec2 run-instances \
-            --image-id ami-07eef52105e8a2059 \  # Ubuntu 24.04 AMI
-            --instance-type t2.micro \
-            --key-name key1 \
-            --security-groups launch-wizard-2 \
-            --count 1 \
-            --query 'Instances[0].InstanceId' --output text)
-
+          INSTANCE_ID=$(aws ec2 run-instances --image-id ami-07eef52105e8a2059 --instance-type t2.micro --key-name key1 --security-groups launch-wizard-2 --count 1 --query 'Instances[0].InstanceId' --output text)
           echo "EC2 Instance ID: $INSTANCE_ID"
           
           # Czekamy, aż instancja EC2 będzie w pełni uruchomiona
           aws ec2 wait instance-running --instance-ids $INSTANCE_ID
 
           # Pobranie publicznego IP instancji
-          PUBLIC_IP=$(aws ec2 describe-instances \
-            --instance-ids $INSTANCE_ID \
-            --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+          PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
 
           echo "Public IP: $PUBLIC_IP"
           echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
