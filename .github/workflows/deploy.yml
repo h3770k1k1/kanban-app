@@ -1,0 +1,74 @@
+name: Deploy Docker Image to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Logowanie do DockerHub
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Budowanie obrazu
+      - name: Build Docker image
+        run: |
+          docker build -t h3ll0k1k1/myapp:latest .
+
+      # Pushowanie obrazu na DockerHub
+      - name: Push Docker image
+        run: |
+          docker push h3ll0k1k1/myapp:latest
+
+      # Logowanie do AWS
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-central-1
+
+      # Uruchomienie nowej instancji EC2 z uruchomionym kontenerem
+      - name: Launch EC2 instance with Docker container
+        run: |
+          # Uruchomienie instancji EC2
+          INSTANCE_ID=$(aws ec2 run-instances \
+            --image-id ami-06ee6255945a96aba \
+            --instance-type t2.micro \
+            --key-name mykey \
+            --security-groups launch-wizard-2 \
+            --count 1 \
+            --query 'Instances[0].InstanceId' --output text)
+
+          # Czekamy, aż instancja EC2 będzie uruchomiona
+          aws ec2 wait instance-running --instance-ids $INSTANCE_ID
+
+          # Uzyskanie publicznego IP instancji
+          PUBLIC_IP=$(aws ec2 describe-instances \
+            --instance-ids $INSTANCE_ID \
+            --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+
+          # Uruchamianie kontenera Docker na nowej instancji
+          ssh -o StrictHostKeyChecking=no -i /path/to/mykey.pem ec2-user@$PUBLIC_IP << 'EOF'
+            # Instalowanie Dockera na instancji EC2
+            sudo yum update -y
+            sudo amazon-linux-extras install docker
+            sudo service docker start
+
+            # Logowanie do DockerHub
+            sudo docker login -u '${{ secrets.DOCKER_USERNAME }}' -p '${{ secrets.DOCKER_PASSWORD }}'
+
+            # Pobranie najnowszego obrazu i uruchomienie kontenera
+            sudo docker pull h3ll0k1k1/myapp:latest
+            sudo docker run -d -p 80:80 h3ll0k1k1/myapp:latest
+          EOF
