@@ -38,18 +38,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
-      # Uruchomienie nowej instancji EC2
+      # Uruchomienie nowej instancji EC2 z nowym AMI Ubuntu 24.04
       - name: Launch EC2 instance
         id: launch_instance
         run: |
           INSTANCE_ID=$(aws ec2 run-instances \
-            --image-id ami-003d1882783c051ef  # Alpine Linux 3.19.7 AMI
-            --instance-type t3.small \  # Zmiana na instancję wspierającą UEFI
+            --image-id ami-07eef52105e8a2059  # Ubuntu 24.04 AMI
+            --instance-type t2.micro \
             --key-name key1 \
             --security-groups launch-wizard-2 \
             --count 1 \
-            --query 'Instances[0].InstanceId' \
-            --output text)
+            --query 'Instances[0].InstanceId' --output text)
 
           echo "EC2 Instance ID: $INSTANCE_ID"
           
@@ -71,22 +70,22 @@ jobs:
           echo "${{ secrets.MY_KEY_PEM }}" > /tmp/key1.pem
           chmod 600 /tmp/key1.pem
 
-      # Instalacja i konfiguracja Dockera na Alpine + uruchomienie kontenera
+      # Instalacja i konfiguracja Dockera na Ubuntu 24.04 + uruchomienie kontenera
       - name: Setup Docker and Run Container on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i /tmp/key1.pem alpine@$PUBLIC_IP << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i /tmp/key1.pem ubuntu@$PUBLIC_IP << 'EOF'
             # Aktualizacja pakietów
-            sudo apk update
+            sudo apt update
 
-            # Instalacja Dockera na Alpine
-            sudo apk add docker
+            # Instalacja Dockera na Ubuntu 24.04
+            sudo apt install -y docker.io
 
             # Uruchomienie i włączenie Dockera przy starcie systemu
-            sudo service docker start
-            sudo rc-update add docker boot
+            sudo systemctl start docker
+            sudo systemctl enable docker
 
             # Dodanie użytkownika EC2 do grupy docker (aby nie używać sudo)
-            sudo addgroup ec2-user docker
+            sudo usermod -aG docker ubuntu
 
             # Restart sesji, aby zastosować zmiany grupy
             newgrp docker
