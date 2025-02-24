@@ -1,4 +1,4 @@
-name: Deploy to AWS EC2
+name: Deploy Docker Image to AWS EC2
 
 on:
   push:
@@ -13,6 +13,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Logowanie do DockerHub
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Budowanie obrazu Dockera
+      - name: Build Docker image
+        run: |
+          docker build -t h3ll0k1k1/myapp:latest .
+
+      # Wysłanie obrazu na DockerHub
+      - name: Push Docker image
+        run: |
+          docker push h3ll0k1k1/myapp:latest
+
+      # Konfiguracja AWS CLI
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -20,7 +38,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
+      # Uruchomienie nowej instancji EC2
       - name: Launch EC2 instance
+        id: launch_instance
         run: |
           INSTANCE_ID=$(aws ec2 run-instances \
             --image-id ami-06ee6255945a96aba \
@@ -28,37 +48,52 @@ jobs:
             --key-name key1 \
             --security-groups launch-wizard-2 \
             --count 1 \
-            --query 'Instances[0].InstanceId' \
-            --output text \
-            --user-data "#!/bin/bash
-            sudo dnf update -y
-            sudo dnf install -y docker
-            sudo systemctl enable --now docker
-            sudo usermod -aG docker ec2-user
-            newgrp docker
-            docker run -d -p 80:80 h3ll0k1k1/myapp:latest") 
+            --query 'Instances[0].InstanceId' --output text)
 
-          echo "Waiting for instance to be ready..."
+          echo "EC2 Instance ID: $INSTANCE_ID"
+          
+          # Czekamy, aż instancja EC2 będzie w pełni uruchomiona
           aws ec2 wait instance-running --instance-ids $INSTANCE_ID
 
+          # Pobranie publicznego IP instancji
           PUBLIC_IP=$(aws ec2 describe-instances \
             --instance-ids $INSTANCE_ID \
-            --query 'Reservations[0].Instances[0].PublicIpAddress' \
-            --output text)
+            --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
 
-          echo "Instance is running at: $PUBLIC_IP"
+          echo "Public IP: $PUBLIC_IP"
+          echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
           echo "PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
 
-      - name: Add SSH key
+      # Zapisanie klucza SSH do pliku
+      - name: Create SSH private key file
         run: |
-          echo "${{ secrets.AWS_SSH_PRIVATE_KEY }}" > /tmp/key1.pem
+          echo "${{ secrets.MY_KEY_PEM }}" > /tmp/key1.pem
           chmod 600 /tmp/key1.pem
 
-      - name: Connect to EC2 and Deploy
+      # Instalacja i konfiguracja Dockera na EC2 + uruchomienie kontenera
+      - name: Setup Docker and Run Container on EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i /tmp/key1.pem ec2-user@$PUBLIC_IP << 'EOF'
+            # Aktualizacja pakietów
+            sudo dnf update -y
+
+            # Instalacja Dockera na Amazon Linux 2023
+            sudo dnf install -y docker
+
+            # Uruchomienie i włączenie Dockera przy starcie systemu
+            sudo systemctl start docker
+            sudo systemctl enable docker
+
+            # Dodanie użytkownika EC2 do grupy docker (aby nie używać sudo)
+            sudo usermod -aG docker ec2-user
+
+            # Restart sesji, aby zastosować zmiany grupy
+            newgrp docker
+
+            # Logowanie do DockerHub
+            docker login -u '${{ secrets.DOCKER_USERNAME }}' -p '${{ secrets.DOCKER_PASSWORD }}'
+
+            # Pobranie najnowszego obrazu i uruchomienie kontenera
             docker pull h3ll0k1k1/myapp:latest
-            docker stop myapp || true
-            docker rm myapp || true
-            docker run -d -p 80:80 --name myapp h3ll0k1k1/myapp:latest
+            docker run -d -p 80:80 h3ll0k1k1/myapp:latest
           EOF
