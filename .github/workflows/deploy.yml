@@ -43,7 +43,7 @@ jobs:
         id: launch_instance
         run: |
           INSTANCE_ID=$(aws ec2 run-instances \
-            --image-id ami-07eef52105e8a2059  # Ubuntu 24.04 AMI
+            --image-id ami-07eef52105e8a2059 \  # Ubuntu 24.04 AMI
             --instance-type t2.micro \
             --key-name key1 \
             --security-groups launch-wizard-2 \
