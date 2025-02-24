@@ -43,7 +43,7 @@ jobs:
         id: launch_instance
         run: |
           INSTANCE_ID=$(aws ec2 run-instances \
-            --image-id ami-06ee6255945a96aba \
+            --image-id ami-003d1882783c051ef  # Alpine Linux 3.19.7 AMI
             --instance-type t2.micro \
             --key-name key1 \
             --security-groups launch-wizard-2 \
@@ -70,22 +70,22 @@ jobs:
           echo "${{ secrets.MY_KEY_PEM }}" > /tmp/key1.pem
           chmod 600 /tmp/key1.pem
 
-      # Instalacja i konfiguracja Dockera na EC2 + uruchomienie kontenera
+      # Instalacja i konfiguracja Dockera na Alpine + uruchomienie kontenera
       - name: Setup Docker and Run Container on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i /tmp/key1.pem ec2-user@$PUBLIC_IP << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i /tmp/key1.pem alpine@$PUBLIC_IP << 'EOF'
             # Aktualizacja pakietów
-            sudo dnf update -y
+            sudo apk update
 
-            # Instalacja Dockera na Amazon Linux 2023
-            sudo dnf install -y docker
+            # Instalacja Dockera na Alpine
+            sudo apk add docker
 
             # Uruchomienie i włączenie Dockera przy starcie systemu
-            sudo systemctl start docker
-            sudo systemctl enable docker
+            sudo service docker start
+            sudo rc-update add docker boot
 
             # Dodanie użytkownika EC2 do grupy docker (aby nie używać sudo)
-            sudo usermod -aG docker ec2-user
+            sudo addgroup ec2-user docker
 
             # Restart sesji, aby zastosować zmiany grupy
             newgrp docker
