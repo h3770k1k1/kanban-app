@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -82,5 +82,5 @@ jobs:
             docker login -u '${{ secrets.DOCKER_USERNAME }}' -p '${{ secrets.DOCKER_PASSWORD }}'
             # Pobranie najnowszego obrazu i uruchomienie kontenera
             docker pull h3ll0k1k1/myapp:latest
-            docker run -d -p 80:80 h3ll0k1k1/myapp:latest
+            docker run -d -p 80:3000 h3ll0k1k1/myapp:latest
           EOF
