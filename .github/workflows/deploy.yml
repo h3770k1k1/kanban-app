@@ -4,10 +4,9 @@ on:
   push:
     branches:
       - main
-#hello
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: Amazon Linux
 
     steps:
       - name: Checkout repository
