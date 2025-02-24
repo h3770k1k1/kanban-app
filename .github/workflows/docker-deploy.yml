@@ -24,9 +24,9 @@ jobs:
       # Budowanie obrazu
       - name: Build Docker image
         run: |
-          docker build -t h3770k1k1/myapp:latest .
+          docker build -t h3ll0k1k1/myapp:latest .
 
       # Pushowanie obrazu na DockerHub
       - name: Push Docker image
         run: |
-          docker push h3770k1k1/myapp:latest
+          docker push h3ll0k1k1/myapp:latest
