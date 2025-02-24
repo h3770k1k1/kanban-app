@@ -1,4 +1,4 @@
-# Etap budowania aplikacji
+# Używamy Alpine Linux jako bazowego obrazu
 FROM node:18-alpine AS builder
 
 # Ustalamy katalog roboczy w kontenerze
@@ -7,31 +7,29 @@ WORKDIR /app
 # Kopiujemy tylko pliki package.json i package-lock.json, aby zoptymalizować cache
 COPY package*.json ./
 
-# Instalujemy zależności, ale tylko te wymagane do budowania aplikacji
-RUN npm install --only=production
+# Instalujemy zależności
+RUN npm install
 
 # Kopiujemy resztę plików aplikacji
 COPY . .
 
-# Budujemy aplikację (dla frameworków jak React, Next.js itp.)
+# Budujemy aplikację
 RUN npm run build
 
 # Etap produkcyjny - tworzymy lekki obraz
 FROM node:18-alpine
 
+# Instalujemy serwer statyczny (serve)
+RUN npm install -g serve
+
 # Ustalamy katalog roboczy w kontenerze
 WORKDIR /app
 
-# Kopiujemy tylko niezbędne pliki z obrazu buildera
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/node_modules ./node_modules
+# Kopiujemy pliki z obrazu buildera (zawiera build)
 COPY --from=builder /app/build ./build
-
-# Ustawiamy zmienną środowiskową na produkcję
-ENV NODE_ENV=production
 
 # Otwieramy port, na którym działa aplikacja
 EXPOSE 3000
 
-# Uruchamiamy aplikację
-CMD ["node", "build/server.js"]
+# Uruchamiamy serwer statyczny na porcie 3000
+CMD ["serve", "-s", "build", "-l", "3000"]
