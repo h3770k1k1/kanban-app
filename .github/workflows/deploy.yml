@@ -44,11 +44,12 @@ jobs:
         run: |
           INSTANCE_ID=$(aws ec2 run-instances \
             --image-id ami-003d1882783c051ef  # Alpine Linux 3.19.7 AMI
-            --instance-type t2.micro \
+            --instance-type t3.small \  # Zmiana na instancję wspierającą UEFI
             --key-name key1 \
             --security-groups launch-wizard-2 \
             --count 1 \
-            --query 'Instances[0].InstanceId' --output text)
+            --query 'Instances[0].InstanceId' \
+            --output text)
 
           echo "EC2 Instance ID: $INSTANCE_ID"
           
@@ -95,5 +96,5 @@ jobs:
 
             # Pobranie najnowszego obrazu i uruchomienie kontenera
             docker pull h3ll0k1k1/myapp:latest
-            docker run -d -p 80:80 h3ll0k1k1/myapp:latest
+            docker run -d -p 3000:80 h3ll0k1k1/myapp:latest
           EOF
