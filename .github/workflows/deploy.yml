@@ -71,7 +71,7 @@ jobs:
       # Uruchomienie kontenera na instancji EC2 za pomocą SSH
       - name: Run Docker container on EC2 using SSH
         run: |
-          ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem ec2-user@$PUBLIC_IP << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i /tmp/key1.pem ec2-user@$PUBLIC_IP << 'EOF'
             # Instalowanie Dockera na instancji EC2
             sudo yum update -y
             sudo amazon-linux-extras install docker
