@@ -45,7 +45,7 @@ jobs:
           INSTANCE_ID=$(aws ec2 run-instances \
             --image-id ami-06ee6255945a96aba \
             --instance-type t2.micro \
-            --key-name mykey \
+            --key-name key1 \
             --security-groups launch-wizard-2 \
             --count 1 \
             --query 'Instances[0].InstanceId' --output text)
@@ -65,8 +65,8 @@ jobs:
       # Zapisz klucz SSH z GitHub Secrets do pliku
       - name: Create SSH private key file
         run: |
-          echo "${{ secrets.MY_KEY_PEM }}" > /tmp/mykey.pem
-          chmod 600 /tmp/mykey.pem
+          echo "${{ secrets.MY_KEY_PEM }}" > /tmp/key1.pem
+          chmod 600 /tmp/key1.pem
 
       # Uruchomienie kontenera na instancji EC2 za pomocą SSH
       - name: Run Docker container on EC2 using SSH
