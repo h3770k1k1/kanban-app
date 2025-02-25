@@ -35,7 +35,7 @@ const ForgotPassword = () => {
         <Container component="main" maxWidth="xs">
             <Box sx={{ marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <Typography component="h1" variant="h5" sx={typographyStyles(theme)}>
-                    Enter your email to reset password
+                    Enter your email to reset your password
                 </Typography>
                 {error && <Alert severity="error">{error}</Alert>}
                 {message && <Alert severity="success">{message}</Alert>}
