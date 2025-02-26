@@ -19,7 +19,7 @@ RUN npm run build
 # Etap produkcyjny - tworzymy lekki obraz
 FROM node:18-alpine
 
-# Instalujemy serwer statyczny (serve)
+# Instalujemy serwer statyczny serve
 RUN npm install -g serve
 
 # Ustalamy katalog roboczy w kontenerze
